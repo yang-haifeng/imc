@@ -20,6 +20,7 @@ class Grid{
 
     double * phiIc;
     double * thetaIc;
+    double dphiI,dthetaI;
 
     void initDensity();
     void initBnuT();
@@ -30,6 +31,8 @@ class Grid{
     ~Grid();
     double get_density(int ir, int it);
     double get_bnuT(int ir, int it);
+
+    bool isInDomain(double r, double theta);
 };
 
 #endif

@@ -13,16 +13,19 @@ Grid::Grid(){
   // + iphiI*NthetaI*4 + ithetaI*4 + i(0,1,2,3)
   // i(0,1,2,3) for Stokes I, Q, U, V
   Stokes = new double [Nr*Ntheta*NphiI*NthetaI*4];
-  // Center of the grid. All four arrays are 1D.
+  // Radial grid. 1D arrays for center, left and right edge of the cell;
   rc = new double [Nr];
-  thetac = new double [Ntheta];
-  phiIc = new double [NphiI];
-  thetaIc = new double [NthetaI];
-  // Left and right side of the grid.
   rl = new double [Nr];
   rr = new double [Nr];
+
+  // Longitudual grid. 1D arrays for center, left and right edge of the cell;
+  thetac = new double [Ntheta];
   thetal = new double [Ntheta];
   thetar = new double [Ntheta];
+
+  // Angular grid.
+  phiIc = new double [NphiI];
+  thetaIc = new double [NthetaI];
 
   this->initDensity();
   this->initBnuT();
@@ -40,10 +43,11 @@ Grid::Grid(){
     thetar[i] = PI/2./Ntheta*(i+1.);
   }
 
-  for(int i=0;i<NphiI;i++) phiIc[i] = 2.*PI/Ntheta*(i+0.5);
-  for(int i=0;i<NthetaI;i++) thetaIc[i] = PI/2./Ntheta*(i+0.5);
-
-  // Step size in angular grid.
+  // Angular grid and its step sizes.
+  for(int i=0;i<NphiI;i++) phiIc[i] = 2.*PI/NphiI*(i+0.5);
+  dphiI = 2.*PI/NphiI;
+  for(int i=0;i<NthetaI;i++) thetaIc[i] = PI/2./NthetaI*(i+0.5);
+  dthetaI = PI/2./NthetaI;
 
 }
 
@@ -51,12 +55,15 @@ Grid::~Grid(){
   delete [] Density;
   delete [] BnuT;
   delete [] Stokes;
+
   delete [] rc;
-  delete [] thetac;
   delete [] rl;
-  delete [] thetal;
   delete [] rr;
+
+  delete [] thetac;
+  delete [] thetal;
   delete [] thetar;
+
   delete [] phiIc;
   delete [] thetaIc;
 }
