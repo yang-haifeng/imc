@@ -3,13 +3,33 @@
 
 #include <math.h>
 #include "typedef.h"
-#include "Eigen/Dense"
+//#include "Eigen/Dense"
 
-using namespace Eigen;
+//using namespace Eigen;
 
 class Grid{
   protected:
+    int Nr, Ntheta;
+    int NphiI, NthetaI;
+    double * Density;
+    double * BnuT;
+    double * Stokes;
+
+    double * rc, * rl, * rr;
+    double * thetac, * thetal, * thetar;
+
+    double * phiIc;
+    double * thetaIc;
+
+    void initDensity();
+    void initBnuT();
+
+    void iteration();
   public:
+    Grid();
+    ~Grid();
+    double get_density(int ir, int it);
+    double get_bnuT(int ir, int it);
 };
 
 #endif

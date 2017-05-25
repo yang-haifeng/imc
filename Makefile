@@ -2,7 +2,10 @@ CXX=g++
 CFLAGS=-I.
 DEPS = Grid.h
 
-OBJ = 
+OBJ = Grid.o \
+      Grid_init.o \
+      Grid_utils.o \
+      Grid_iteration.o
 
 OBJM = main.o
 
