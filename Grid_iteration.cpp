@@ -7,7 +7,7 @@ void Grid::iteration(){
   double r, theta; // Current location of the calculation point
   double x, y, z;
   double nx, ny, nz;
-  double ds;
+  double ds, dtau;
   double I,Q,U,V;
   int ir, it;
   for(int i=0; i<Nr; i++){ // i is index for radius in spacial grid
@@ -31,16 +31,21 @@ void Grid::iteration(){
 	  I=0; Q=0; U=0; V=0;
 	  //std::cout<<"Starting point: "<<r<<","<<theta<<std::endl;
 	  //std::cout<<"Angle: "<<n_theta<<","<<n_phi<<std::endl;
-	  double s=0;
+	  double s=0, tau=0;
 	  while (this->isInDomain(x, y, z)){ // If still in the domain
 	    this->moveOneCell(x, y, z, nx, ny, nz, // Parameters
 	    	ds, ir, it); // Things to change
-	    I+=this->get_density(ir, it) * this->get_bnuT(ir, it) * ds * kappa_abs; // Thermal emission part. Non-polarized for now.
+	    dtau = this->get_density(ir,it) * ds * kappa_ext;
+	    I+=this->get_density(ir, it) * this->get_bnuT(ir, it) * ds * kappa_abs
+	       * exp(-(tau+0.5*dtau)); 
+	       // Thermal emission part. Non-polarized for now.
 	    this->calc_Scattering(ir, it, x, y, z, nx, ny, nz, ds, // Parameters
 	    	I, Q, U, V); // Things to change
 	    x -= nx*ds; y -= ny*ds; z -= nz*ds; // Opposite direction.
 
 	    s+=ds;
+	    tau+=dtau;
+	    if (tau>10) break;
 	  }
 	  Stokes[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
 	  	+ 0] = I;
