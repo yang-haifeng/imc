@@ -5,7 +5,9 @@ DEPS = Grid.h
 OBJ = Grid.o \
       Grid_init.o \
       Grid_utils.o \
-      Grid_iteration.o
+      Grid_iteration.o \
+      Grid_moveOneCell.o \
+      Grid_calc_Scattering.o \
 
 OBJM = main.o
 

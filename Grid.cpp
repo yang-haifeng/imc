@@ -49,6 +49,11 @@ Grid::Grid(){
   for(int i=0;i<NthetaI;i++) thetaIc[i] = PI/2./NthetaI*(i+0.5);
   dthetaI = PI/2./NthetaI;
 
+  r2max = rr[Nr]*rr[Nr];
+
+  kappa_abs = 1.;
+  kappa_sca = 0.1;
+  kappa_ext = kappa_abs+kappa_sca;
 }
 
 Grid::~Grid(){

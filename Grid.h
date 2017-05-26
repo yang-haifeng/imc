@@ -22,17 +22,28 @@ class Grid{
     double * thetaIc;
     double dphiI,dthetaI;
 
+    double r2max;
+
+    double kappa_abs, kappa_sca, kappa_ext;
+
     void initDensity();
     void initBnuT();
 
-    void iteration();
+    void moveOneCell(double x, double y, double z, double nx, double ny, double nz,
+    	double &ds, int &ir, int &it);
+    void calc_Scattering(int ir, int it, double x, double y, double z, 
+    	double nx, double ny, double nz, double ds,
+	double &I, double &Q, double &U, double &V);
+
   public:
     Grid();
     ~Grid();
     double get_density(int ir, int it);
     double get_bnuT(int ir, int it);
 
-    bool isInDomain(double r, double theta);
+    bool isInDomain(double x, double y, double z);
+
+    void iteration();
 };
 
 #endif
