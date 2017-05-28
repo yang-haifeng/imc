@@ -37,10 +37,11 @@ Grid::Grid(){
     rl[i] = i*10*AU;
     rr[i] = i*10*AU+10.*AU;
   }
-  for(int i=0;i<Ntheta;i++){
-    thetac[i] = PI/2./Ntheta*(i+0.5);
-    thetal[i] = PI/2./Ntheta*(i);
-    thetar[i] = PI/2./Ntheta*(i+1.);
+  for(int i=0;i<Ntheta;i++){ // Max theta is PI now. Note that it is pretty bad.
+    // I'll work on a modification later. 
+    thetac[i] = PI/Ntheta*(i+0.5);
+    thetal[i] = PI/Ntheta*(i);
+    thetar[i] = PI/Ntheta*(i+1.);
   }
 
   // Angular grid and its step sizes.
