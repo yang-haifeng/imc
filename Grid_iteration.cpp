@@ -10,10 +10,13 @@ void Grid::iteration(){
   double ds, dtau;
   double I,Q,U,V;
   int ir, it;
+  double rho, bnuT;
   for(int i=0; i<Nr; i++){ // i is index for radius in spacial grid
     r0 = rc[i];
+    ir = i;
     for(int j=0; j<Ntheta; j++){ // j is index for theta in spacial grid
       theta0 = thetac[j];
+      it = j;
       for(int k=0; k<NphiI; k++){ // k is index for phi in angular grid
         n_phi=phiIc[k];
 	for(int l=0; l<NthetaI; l++){ // l is index for theta in angular grid
@@ -33,11 +36,12 @@ void Grid::iteration(){
 	  //std::cout<<"Angle: "<<n_theta<<","<<n_phi<<std::endl;
 	  double s=0, tau=0;
 	  while (this->isInDomain(x, y, z)){ // If still in the domain
+	    rho = this->get_density(ir,it);
+	    bnuT = this->get_bnuT(ir, it);
 	    this->moveOneCell(x, y, z, nx, ny, nz, // Parameters
 	    	ds, ir, it); // Things to change
-	    dtau = this->get_density(ir,it) * ds * kappa_ext;
-	    I+=this->get_density(ir, it) * this->get_bnuT(ir, it) * ds * kappa_abs
-	       * exp(-(tau+0.5*dtau)); 
+	    dtau =  rho * ds * kappa_ext;
+	    I += rho * bnuT * ds * kappa_abs * exp(-(tau+0.5*dtau)); 
 	       // Thermal emission part. Non-polarized for now.
 	    this->calc_Scattering(ir, it, x, y, z, nx, ny, nz, ds, // Parameters
 	    	I, Q, U, V); // Things to change
