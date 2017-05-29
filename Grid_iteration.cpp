@@ -1,7 +1,11 @@
 #include "Grid.h"
 #include <iostream>
+#include <fstream>
 
 void Grid::iteration(){
+  std::ofstream Fout;
+  Fout.open("test/positions");
+
   double r0, theta0; // Initial location of the cell
   double n_phi, n_theta; // Direction of the line in question
   double r, theta; // Current location of the calculation point
@@ -32,14 +36,18 @@ void Grid::iteration(){
 	  ny = sin(n_theta)*sin(n_phi); 
 	  nz = cos(n_theta); 
 	  I=0; Q=0; U=0; V=0;
-	  //std::cout<<"Starting point: "<<r<<","<<theta<<std::endl;
-	  //std::cout<<"Angle: "<<n_theta<<","<<n_phi<<std::endl;
+	  std::cout<<"Starting point: "<<r/AU<<","<<theta<<std::endl;
+	  std::cout<<"Angle: "<<n_theta<<","<<n_phi<<std::endl;
 	  double s=0, tau=0;
 	  while (this->isInDomain(x, y, z)){ // If still in the domain
+	    Fout<<x/AU<<" "<<y/AU<<" "<<z/AU<<std::endl;
 	    rho = this->get_density(ir,it);
 	    bnuT = this->get_bnuT(ir, it);
+	    std::cout<<"ir, it (before): "<<ir<<", "<<it<<std::endl;
 	    this->moveOneCell(x, y, z, nx, ny, nz, // Parameters
 	    	ds, ir, it); // Things to change
+	    std::cout<<"ir, it (after) : "<<ir<<", "<<it<<std::endl;
+	    std::cout<<"distance: "<<ds/AU<<std::endl;
 	    dtau =  rho * ds * kappa_ext;
 	    I += rho * bnuT * ds * kappa_abs * exp(-(tau+0.5*dtau)); 
 	       // Thermal emission part. Non-polarized for now.
@@ -49,6 +57,7 @@ void Grid::iteration(){
 
 	    s+=ds;
 	    tau+=dtau;
+	    std::cout<<"tau: "<<tau<<std::endl;
 	    if (tau>10) break;
 	  }
 	  Stokes[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
@@ -61,6 +70,7 @@ void Grid::iteration(){
 	  	+ 3] = V;
 	  
 	  std::cout<<s/AU<<std::endl;
+	  std::cout<<I<<" "<<Q<<" "<<U<<" "<<V<<std::endl;
 
 	  goto endloop;
 	}
@@ -68,5 +78,6 @@ void Grid::iteration(){
     }
   }
   endloop:
+  Fout.close();
   return;
 }
