@@ -55,7 +55,7 @@ void Grid::iteration(){
 	    //I += rho * bnuT * ds * kappa_abs * exp(-(tau+0.5*dtau)); 
 	       // Thermal emission part. Non-polarized for now.
 
-	    this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau, ds, // Parameters
+	    this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau, dtau, // Parameters
 	    	I, Q, U, V); // Things to change
 	    x -= nx*ds; y -= ny*ds; z -= nz*ds; // Opposite direction.
 
