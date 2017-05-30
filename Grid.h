@@ -32,8 +32,13 @@ class Grid{
     void moveOneCell(double x, double y, double z, double nx, double ny, double nz,
     	double &ds, int &ir, int &it);
     void calc_Scattering(int ir, int it, double x, double y, double z, 
-    	double nx, double ny, double nz, double ds,
+    	double nx, double ny, double nz, double tau, double ds,
 	double &I, double &Q, double &U, double &V);
+
+    void muller_Matrix(double theta, double phi, double nx, double ny, double nz,
+    	double I, double Q, double U, double V,
+    	double &dI, double &dQ, double &dU, double &dV,
+	int ir, int it);
 
   public:
     Grid();
