@@ -48,8 +48,12 @@ void Grid::iteration(){
 	    //std::cout<<"ir, it (after) : "<<ir<<", "<<it<<std::endl;
 	    //std::cout<<"distance: "<<ds/AU<<std::endl;
 	    dtau =  rho * ds * kappa_ext;
-	    I += rho * bnuT * ds * kappa_abs * exp(-(tau+0.5*dtau)); 
+
+	    I += bnuT * kappa_abs/kappa_ext * 
+	      (exp(-tau) - exp(-(tau+dtau))); // Try new scheme.
+	    //I += rho * bnuT * ds * kappa_abs * exp(-(tau+0.5*dtau)); 
 	       // Thermal emission part. Non-polarized for now.
+
 	    this->calc_Scattering(ir, it, x, y, z, nx, ny, nz, ds, // Parameters
 	    	I, Q, U, V); // Things to change
 	    x -= nx*ds; y -= ny*ds; z -= nz*ds; // Opposite direction.
