@@ -138,14 +138,14 @@ double thetaWall(double x, double y, double z, double nx, double ny, double nz, 
       solutions[nsol] = tsol;
       flags[nsol]=-1;
       nsol++;
-      std::cout<<"sol1:"<<tsol/AU<<std::endl;
+      //std::cout<<"sol1:"<<tsol/AU<<std::endl;
     }
     tsol = (-b1+sqrt(delta1))/2/a1;
     if(tsol>0){
       solutions[nsol] = tsol;
       flags[nsol]=-1;
       nsol++;
-      std::cout<<"sol2:"<<tsol/AU<<std::endl;
+      //std::cout<<"sol2:"<<tsol/AU<<std::endl;
     }
   }
   if(theta2>1.e-3) if (delta2>=0){
@@ -154,14 +154,14 @@ double thetaWall(double x, double y, double z, double nx, double ny, double nz, 
       solutions[nsol] = tsol;
       flags[nsol]=1;
       nsol++;
-      std::cout<<"sol3:"<<tsol/AU<<std::endl;
+      //std::cout<<"sol3:"<<tsol/AU<<std::endl;
     }
     tsol = (-b2+sqrt(delta2))/2/a2;
     if(tsol>0){
       solutions[nsol] = tsol;
       flags[nsol]=1;
       nsol++;
-      std::cout<<"sol4:"<<tsol/AU<<std::endl;
+      //std::cout<<"sol4:"<<tsol/AU<<std::endl;
     }
   }
   if (nsol==0) return 1.e50; // No solution found. Return a huge number here.
