@@ -1,8 +1,10 @@
 #include "Grid.h"
 
+#define Ntot 100
+
 Grid::Grid(){
-  Nr = 10; Ntheta = 10; // Number in spacial grid.
-  NphiI = 10; NthetaI = 10; // Number in scattering angle grid.
+  Nr = Ntot; Ntheta = Ntot; // Number in spacial grid.
+  NphiI = Ntot; NthetaI = Ntot; // Number in scattering angle grid.
 
   // Allocate memory for the arrays.
   // Density and BnuT are 2D array. ir*Ntheta+itheta
