@@ -44,6 +44,8 @@ class Grid{
     bool isInDomain(double x, double y, double z);
 
     void iteration();
+
+    void saveStokes();
 };
 
 #endif
