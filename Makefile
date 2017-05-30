@@ -9,6 +9,7 @@ OBJ = Grid.o \
       Grid_moveOneCell.o \
       Grid_calc_Scattering.o \
       Grid_saveStokes.o \
+      Grid_muller_Matrix.o \
 
 OBJM = main.o
 
