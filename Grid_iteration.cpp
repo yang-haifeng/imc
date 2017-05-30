@@ -13,7 +13,7 @@ void Grid::iteration(){
   double nx, ny, nz;
   double ds, dtau;
   double I,Q,U,V;
-  int ir, it;
+  int ir, it, irs, its;
   double rho, bnuT;
   for(int i=0; i<Nr; i++){ // i is index for radius in spacial grid
     r0 = rc[i];
@@ -40,6 +40,7 @@ void Grid::iteration(){
 	  double s=0, tau=0;
 	  while (this->isInDomain(x, y, z)){ // If still in the domain
 	    //Fout<<x/AU<<" "<<y/AU<<" "<<z/AU<<std::endl;
+	    irs = ir; its = it; // Save location information for scattering.
 	    rho = this->get_density(ir,it);
 	    bnuT = this->get_bnuT(ir, it);
 	    //std::cout<<"ir, it (before): "<<ir<<", "<<it<<std::endl;
@@ -54,7 +55,7 @@ void Grid::iteration(){
 	    //I += rho * bnuT * ds * kappa_abs * exp(-(tau+0.5*dtau)); 
 	       // Thermal emission part. Non-polarized for now.
 
-	    this->calc_Scattering(ir, it, x, y, z, nx, ny, nz, ds, // Parameters
+	    this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau, ds, // Parameters
 	    	I, Q, U, V); // Things to change
 	    x -= nx*ds; y -= ny*ds; z -= nz*ds; // Opposite direction.
 
