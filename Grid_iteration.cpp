@@ -15,6 +15,7 @@ void Grid::iteration(){
   double I,Q,U,V;
   int ir, it, irs, its;
   double rho, bnuT;
+  int Ncal=0;
   for(int i=0; i<Nr; i++){ // i is index for radius in spacial grid
     r0 = rc[i];
     for(int j=0; j<Ntheta; j++){ // j is index for theta in spacial grid
@@ -37,7 +38,7 @@ void Grid::iteration(){
 	  I=0; Q=0; U=0; V=0;
 	  //std::cout<<"Starting point: "<<r/AU<<","<<theta<<std::endl;
 	  //std::cout<<"Angle: "<<n_theta<<","<<n_phi<<std::endl;
-	  double s=0, tau=0;
+	  double tau=0;
 	  while (this->isInDomain(x, y, z)){ // If still in the domain
 	    //Fout<<x/AU<<" "<<y/AU<<" "<<z/AU<<std::endl;
 	    irs = ir; its = it; // Save location information for scattering.
@@ -59,7 +60,6 @@ void Grid::iteration(){
 	    	I, Q, U, V); // Things to change
 	    x -= nx*ds; y -= ny*ds; z -= nz*ds; // Opposite direction.
 
-	    //s+=ds;
 	    tau+=dtau;
 	    //std::cout<<"tau: "<<tau<<std::endl;
 	    if (tau>10) break;
@@ -73,15 +73,15 @@ void Grid::iteration(){
 	  Stokes[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
 	  	+ 3] = V;
 	  
-	  //std::cout<<s/AU<<std::endl;
-	  //std::cout<<I<<" "<<Q<<" "<<U<<" "<<V<<std::endl;
-
-	  //goto endloop;
+	  if (Ncal%100==0){
+	    std::cout<<Ncal<<" done."<<std::endl;
+	  }
+	  Ncal++;
+	  
 	}
       }
     }
   }
-  //endloop:
   //Fout.close();
   return;
 }
