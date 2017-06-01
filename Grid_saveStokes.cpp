@@ -1,9 +1,9 @@
 #include "Grid.h"
 #include <fstream>
 
-void Grid::saveStokes(){
+void Grid::saveStokes(std::string fName){
   std::ofstream Fout;
-  Fout.open("stokes.bin", std::ios::binary);
+  Fout.open(fName.c_str(), std::ios::binary);
   for(int i=0; i<Nr; i++){
     for(int j=0; j<Ntheta; j++){
       for(int k=0; k<NphiI; k++){

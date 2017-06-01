@@ -1,6 +1,7 @@
 #ifndef _GRID_H
 #define _GRID_H
 
+#include <iostream>
 #include <math.h>
 #include "typedef.h"
 //#include "Eigen/Dense"
@@ -50,7 +51,7 @@ class Grid{
 
     void iteration();
 
-    void saveStokes();
+    void saveStokes(std::string fName="stokes.bin");
 };
 
 #endif
