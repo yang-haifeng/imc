@@ -3,6 +3,6 @@
 
 #include "math.h"
 
-inline double dot(double * a, double * b);
+double dot(double * a, double * b);
 
 #endif

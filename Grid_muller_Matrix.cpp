@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include "utils.h"
 
 // Note that all of the stuff here are defined with double and double *.
 // I didn't bother with Eigen package in this version. 
