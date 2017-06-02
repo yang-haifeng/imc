@@ -15,6 +15,7 @@ Grid::Grid(){
   // + iphiI*NthetaI*4 + ithetaI*4 + i(0,1,2,3)
   // i(0,1,2,3) for Stokes I, Q, U, V
   Stokes = new double [Nr*Ntheta*NphiI*NthetaI*4];
+  Stokes1 = new double [Nr*Ntheta*NphiI*NthetaI*4];
   // Radial grid. 1D arrays for center, left and right edge of the cell;
   rc = new double [Nr];
   rl = new double [Nr];
@@ -32,7 +33,9 @@ Grid::Grid(){
   this->initDensity();
   this->initBnuT();
 
-  for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++) Stokes[i]=0;
+  for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++){
+    Stokes[i]=0; Stokes1[i]=0;
+  }
 
   for(int i=0;i<Nr;i++){
     rc[i] = i*10*AU+5*AU;
@@ -63,6 +66,7 @@ Grid::~Grid(){
   delete [] Density;
   delete [] BnuT;
   delete [] Stokes;
+  delete [] Stokes1;
 
   delete [] rc;
   delete [] rl;

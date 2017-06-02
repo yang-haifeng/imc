@@ -15,6 +15,7 @@ class Grid{
     double * Density;
     double * BnuT;
     double * Stokes;
+    double * Stokes1;
 
     double * rc, * rl, * rr;
     double * thetac, * thetal, * thetar;
