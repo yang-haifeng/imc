@@ -5,6 +5,7 @@
 void Grid::iteration(){
   //std::ofstream Fout;
   //Fout.open("test/positions");
+  std::cout<<"Iteration Starts."<<std::endl;
 
   double r0, theta0; // Initial location of the cell
   double n_phi, n_theta; // Direction of the line in question
