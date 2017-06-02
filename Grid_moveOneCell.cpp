@@ -175,7 +175,12 @@ double thetaWall(double x, double y, double z, double nx, double ny, double nz, 
   return tsol;
 }
 
-// In 2D, this may not seem necessary. 
+// In 2D, this may not seem necessary. But this is the secure for phi to be acurate.
+// If we go to 3D, this need to be rewritten since it's not accurate enough to 
+// cross phiWall.
 double phiMove(double x, double y, double z, double nx, double ny, double nz, double dphi){
-  return 1.e50;
+  double phi = atan2(y,x);
+  double np = ny*cos(phi) - nx*sin(phi); 
+  double r = sqrt(x*x+y*y);
+  return fabs(r*dphi/np);
 }
