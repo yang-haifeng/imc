@@ -42,6 +42,11 @@ class Grid{
     	double &dI, double &dQ, double &dU, double &dV,
 	int ir, int it);
 
+    void getSurface(double &x, double &y, double &z, double nx, double ny, 
+        double nz, bool &status);
+    void imageInterpolate(double x, double y, double z, double nx, double ny, 
+        double nz, double &I, double &Q, double &U, double &V);
+
   public:
     Grid();
     ~Grid();
@@ -54,6 +59,8 @@ class Grid{
     void iteration();
 
     void saveStokes(std::string fName="stokes.bin");
+
+    void Image(double inc, int Npix=100, std::string fName="Image.out");
 };
 
 #endif
