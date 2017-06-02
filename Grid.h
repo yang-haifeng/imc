@@ -50,6 +50,7 @@ class Grid{
 
     bool isInDomain(double x, double y, double z);
 
+    void zeroIter();
     void iteration();
 
     void saveStokes(std::string fName="stokes.bin");
