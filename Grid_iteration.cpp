@@ -64,13 +64,13 @@ void Grid::iteration(){
 	    //std::cout<<"tau: "<<tau<<std::endl;
 	    if (tau>10) break;
 	  }
-	  Stokes[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
+	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
 	  	+ 0] = I;
-	  Stokes[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
+	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
 	  	+ 1] = Q;
-	  Stokes[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
+	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
 	  	+ 2] = U;
-	  Stokes[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
+	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
 	  	+ 3] = V;
 	  
 	  if (Ncal%100==0){
@@ -82,6 +82,9 @@ void Grid::iteration(){
       }
     }
   }
+
+  // Copy new array to past iteration. 
+  for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++) Stokes[i] = Stokes1[i];
   //Fout.close();
   return;
 }
