@@ -1,6 +1,6 @@
 #include "Grid.h"
 
-#define Ntot 50
+#define Ntot 10
 
 Grid::Grid(){
   Nr = Ntot; Ntheta = Ntot; // Number in spacial grid.
