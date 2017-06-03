@@ -55,6 +55,7 @@ Grid::Grid(){
   for(int i=0;i<NthetaI;i++) thetaIc[i] = PI/2./NthetaI*(i+0.5);
   dthetaI = PI/2./NthetaI;
 
+  r2min = rl[0]*rl[0];
   r2max = rr[Nr-1]*rr[Nr-1];
 
   kappa_abs = 1.;

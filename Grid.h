@@ -24,7 +24,7 @@ class Grid{
     double * thetaIc;
     double dphiI,dthetaI;
 
-    double r2max;
+    double r2min, r2max;
 
     double kappa_abs, kappa_sca, kappa_ext;
 
@@ -43,9 +43,10 @@ class Grid{
 	int ir, int it);
 
     void getSurface(double &x, double &y, double &z, double nx, double ny, 
-        double nz, bool &status);
-    void imageInterpolate(double x, double y, double z, double nx, double ny, 
-        double nz, double &I, double &Q, double &U, double &V);
+        double nz, bool &status, int &ir, int &it);
+
+    bool isInDomain(double x, double y, double z);
+    bool findCell(double x, double y, double z, int &ir, int &it);
 
   public:
     Grid();
@@ -53,14 +54,12 @@ class Grid{
     double get_density(int ir, int it);
     double get_bnuT(int ir, int it);
 
-    bool isInDomain(double x, double y, double z);
-
     void zeroIter();
     void iteration();
 
     void saveStokes(std::string fName="stokes.bin");
 
-    void Image(double inc, int Npix=100, std::string fName="Image.out");
+    void Image(double inc, int Npix=100, std::string fName="image.out");
 };
 
 #endif
