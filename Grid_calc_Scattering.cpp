@@ -11,7 +11,7 @@ void Grid::calc_Scattering(int ir, int it, double x, double y, double z,
   double rho = this->get_density(ir,it);
   double Iin, Qin, Uin, Vin;
   double dI=0., dQ=0., dU=0., dV=0.;
-  double nx1, ny1, nz1;
+  //double nx1, ny1, nz1;
   double phiI, thetaI;
   double phi;
   phi = atan2(y, x);
@@ -23,11 +23,11 @@ void Grid::calc_Scattering(int ir, int it, double x, double y, double z,
       Iin = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
         + i*NthetaI*4 + j*4 + 0];
       Qin = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
-        + i*NthetaI*4 + j*4 + 0];
+        + i*NthetaI*4 + j*4 + 1];
       Uin = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
-        + i*NthetaI*4 + j*4 + 0];
+        + i*NthetaI*4 + j*4 + 2];
       Vin = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
-        + i*NthetaI*4 + j*4 + 0];
+        + i*NthetaI*4 + j*4 + 3];
       
       muller_Matrix(thetaI, phiI+phi, // Incoming light direction
         nx, ny, nz, // Outgoing light direction
