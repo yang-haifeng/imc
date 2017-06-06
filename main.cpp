@@ -12,8 +12,8 @@ int main(){
   std::cout<<"Generating the first image."<<std::endl;
   M.Image(-PI/4.);
 
-  M.iteration();
-  M.saveStokes("stokes1.bin");
-  std::cout<<"Generating the second image."<<std::endl;
-  M.Image(-PI/4., 100, "image1.out");
+  //M.iteration();
+  //M.saveStokes("stokes1.bin");
+  //std::cout<<"Generating the second image."<<std::endl;
+  //M.Image(-PI/4., 100, "image1.out");
 }
