@@ -23,19 +23,37 @@ void Grid::Image(double inc, int Npix, std::string fName){
   double I,Q,U,V;
   bool status;
   int ir, it;
-  //std::cout<<"dx,dy,dz:"<<dx/AU<<" "<<dy/AU<<" "<<dz/AU<<std::endl;
-  //std::cout<<"x0,y0,z0:"<<x0/AU<<" "<<y0/AU<<" "<<z0/AU<<std::endl;
+  int irs, its;
+  double rho, bnuT;
+  double ds, dtau;
   for (int i=0; i<Npix; i++){
     for (int j=0; j<Npix; j++){
       x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
-      //std::cout<<x/AU<<" "<<y/AU<<" "<<z/AU<<std::endl;
 
       getSurface(x, y, z, nx, ny, nz, status, ir, it);
       if (status) { //status==true means the point is out of the domain.
         Fout<<0.<<" "<<0.<<" "<<0.<<" "<<0.<<std::endl; // write all 0 here.
 	continue; // Move on to the next point.
       }
-      I=x/AU; Q=y/AU; U=z/AU; V=0.;
+
+      // Now integrate along (-nx, -ny, -nz) from (x,y,z) to get Stokes parameters
+      I=0; Q=0; U=0; V=0;
+      double tau=0;
+      while (this->isInDomain(x,y,z)){
+        irs = ir; its = it;
+	rho = this->get_density(ir,it);
+	bnuT = this->get_bnuT(ir,it);
+	this->moveOneCell(x,y,z, nx,ny,nz, ds, ir,it);
+	dtau = rho * ds * kappa_ext;
+	
+	I += bnuT * kappa_abs/kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+
+	this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau, dtau, I,Q,U,V);
+	x-=nx*ds; y-=ny*ds; z-=nz*ds;
+
+	tau+=dtau;
+	if(tau>10) break;
+      }
       Fout<<I<<" "<<Q<<" "<<U<<" "<<V<<std::endl;
     }
   }
