@@ -30,9 +30,6 @@ Grid::Grid(){
   phiIc = new double [NphiI];
   thetaIc = new double [NthetaI];
 
-  this->initDensity();
-  this->initBnuT();
-
   for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++){
     Stokes[i]=0; Stokes1[i]=0;
   }
@@ -61,6 +58,9 @@ Grid::Grid(){
   kappa_abs = 1.;
   kappa_sca = 0.1;
   kappa_ext = kappa_abs+kappa_sca;
+
+  this->initDensity();
+  this->initBnuT();
 }
 
 Grid::~Grid(){
