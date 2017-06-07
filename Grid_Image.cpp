@@ -26,18 +26,14 @@ void Grid::Image(double inc, int Npix, std::string fName){
   int irs, its;
   double rho, bnuT;
   double ds, dtau;
-  //for (int i=0; i<Npix; i++){
-    //for (int j=0; j<Npix; j++){
-      int i=25, j=50;
-
+  for (int i=0; i<Npix; i++){
+    for (int j=0; j<Npix; j++){
       x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
 
       getSurface(x, y, z, nx, ny, nz, status, ir, it);
       if (status) { //status==true means the point is out of the domain.
         Fout<<0.<<" "<<0.<<" "<<0.<<" "<<0.<<std::endl; // write all 0 here.
-	//continue; // Move on to the next point.
-	Fout.close();
-	return;
+	continue; // Move on to the next point.
       }
 
       // Now integrate along (-nx, -ny, -nz) from (x,y,z) to get Stokes parameters
@@ -59,8 +55,8 @@ void Grid::Image(double inc, int Npix, std::string fName){
 	if(tau>10) break;
       }
       Fout<<I<<" "<<Q<<" "<<U<<" "<<V<<std::endl;
-    //}
-  //}
+    }
+  }
   Fout.close();
 }
 
