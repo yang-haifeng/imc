@@ -49,7 +49,7 @@ Grid::Grid(){
   // Angular grid and its step sizes.
   for(int i=0;i<NphiI;i++) phiIc[i] = 2.*PI/NphiI*(i+0.5);
   dphiI = 2.*PI/NphiI;
-  for(int i=0;i<NthetaI;i++) thetaIc[i] = PI/2./NthetaI*(i+0.5);
+  for(int i=0;i<NthetaI;i++) thetaIc[i] = PI/NthetaI*(i+0.5);
   dthetaI = PI/2./NthetaI;
 
   r2min = rl[0]*rl[0];
