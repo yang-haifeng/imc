@@ -1,6 +1,7 @@
 #include "Grid.h"
 
 #define Ntot 10
+#define RMAX 100
 
 Grid::Grid(){
   Nr = Ntot; Ntheta = Ntot; // Number in spacial grid.
@@ -34,10 +35,11 @@ Grid::Grid(){
     Stokes[i]=0; Stokes1[i]=0;
   }
 
+  double dr = RMAX*AU/Nr;
   for(int i=0;i<Nr;i++){
-    rc[i] = i*10*AU+5*AU;
-    rl[i] = i*10*AU;
-    rr[i] = i*10*AU+10.*AU;
+    rc[i] = dr*(i+0.5);
+    rl[i] = dr*i;
+    rr[i] = dr*(i+1);
   }
   for(int i=0;i<Ntheta;i++){ // Max theta is PI now. Note that it is pretty bad.
     // I'll work on a modification later. 
