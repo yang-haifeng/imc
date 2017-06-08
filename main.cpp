@@ -10,7 +10,7 @@ int main(){
   M.zeroIter();
   M.saveStokes();
   std::cout<<"Generating the first image."<<std::endl;
-  M.Image(-PI/4.);
+  M.Image(PI/4.);
 
   //M.iteration();
   //M.saveStokes("stokes1.bin");
