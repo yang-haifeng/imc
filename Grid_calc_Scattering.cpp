@@ -11,6 +11,7 @@ void Grid::calc_Scattering(int ir, int it, double x, double y, double z,
   double rho = this->get_density(ir,it);
   double Iin, Qin, Uin, Vin;
   double dI=0., dQ=0., dU=0., dV=0.;
+  double dIdOmega=0., dQdOmega=0., dUdOmega=0., dVdOmega=0.;
   //double nx1, ny1, nz1;
   double phiI, thetaI;
   double phi;
@@ -32,15 +33,20 @@ void Grid::calc_Scattering(int ir, int it, double x, double y, double z,
       muller_Matrix(thetaI, phiI+phi, // Incoming light direction
         nx, ny, nz, // Outgoing light direction
       	Iin, Qin, Uin, Vin, // Incoming radiation
-	dI, dQ, dU, dV, // Outgoing radiation
+	dIdOmega, dQdOmega, dUdOmega, dVdOmega, // Outgoing radiation
 	ir, it); // (ir, it) is passed for future implimentation of aligned grains
+
+      dI += dIdOmega * sin(thetaI) * dthetaI * dphiI;
+      dQ += dQdOmega * sin(thetaI) * dthetaI * dphiI;
+      dU += dUdOmega * sin(thetaI) * dthetaI * dphiI;
+      dV += dVdOmega * sin(thetaI) * dthetaI * dphiI;
     }
   }
 
-  I += dI * kappa_sca/kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
-  Q += dQ * kappa_sca/kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
-  U += dU * kappa_sca/kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
-  V += dV * kappa_sca/kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+  I += dI /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+  Q += dQ /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+  U += dU /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+  V += dV /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
 
   return;
 }

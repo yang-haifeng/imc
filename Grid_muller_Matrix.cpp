@@ -65,10 +65,10 @@ void Grid::muller_Matrix(double theta, double phi, double nx, double ny, double 
   Z43 = 0.;
   Z44 = (S22*S11 - S12*S21);
 
-  dI += (Z11*I+Z12*Q+Z13*U+Z14*V)*sin(theta)*dthetaI*dphiI;
-  dQ += (Z21*I+Z22*Q+Z23*U+Z24*V)*sin(theta)*dthetaI*dphiI;
-  dU += (Z31*I+Z32*Q+Z33*U+Z34*V)*sin(theta)*dthetaI*dphiI;
-  dV += (Z41*I+Z42*Q+Z43*U+Z44*V)*sin(theta)*dthetaI*dphiI;
+  dI = (Z11*I+Z12*Q+Z13*U+Z14*V)*3/8./PI*kappa_sca;
+  dQ = (Z21*I+Z22*Q+Z23*U+Z24*V)*3/8./PI*kappa_sca;
+  dU = (Z31*I+Z32*Q+Z33*U+Z34*V)*3/8./PI*kappa_sca;
+  dV = (Z41*I+Z42*Q+Z43*U+Z44*V)*3/8./PI*kappa_sca;
 
   return;
 }
