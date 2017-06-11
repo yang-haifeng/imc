@@ -17,6 +17,8 @@ class Grid{
     double * Stokes;
     double * Stokes1;
 
+    double * Bfield;
+
     double * rc, * rl, * rr;
     double * thetac, * thetal, * thetar;
 
@@ -30,6 +32,7 @@ class Grid{
 
     void initDensity();
     void initBnuT();
+    void initBfield();
 
     void moveOneCell(double x, double y, double z, double nx, double ny, double nz,
     	double &ds, int &ir, int &it);

@@ -33,3 +33,14 @@ void Grid::initBnuT(){
     }
   }
 }
+
+void Grid::initBfield(){
+  // Uniform B field in z direction for now.
+  for (int i=0;i<Nr;i++){
+    for (int j=0;j<Ntheta;j++){
+      Bfield[(i*Ntheta+j)*3 + 0] = 0; // Bx
+      Bfield[(i*Ntheta+j)*3 + 1] = 0; // By
+      Bfield[(i*Ntheta+j)*3 + 2] = 1.; // Bz
+    }
+  }
+}

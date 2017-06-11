@@ -17,6 +17,8 @@ Grid::Grid(){
   // i(0,1,2,3) for Stokes I, Q, U, V
   Stokes = new double [Nr*Ntheta*NphiI*NthetaI*4];
   Stokes1 = new double [Nr*Ntheta*NphiI*NthetaI*4];
+  // Bfield is 3D array. The same 2D as Density + 1D of length 3.
+  Bfield = new double [Nr*Ntheta*3];
   // Radial grid. 1D arrays for center, left and right edge of the cell;
   rc = new double [Nr];
   rl = new double [Nr];
@@ -70,6 +72,8 @@ Grid::~Grid(){
   delete [] BnuT;
   delete [] Stokes;
   delete [] Stokes1;
+
+  delete [] Bfield;
 
   delete [] rc;
   delete [] rl;
