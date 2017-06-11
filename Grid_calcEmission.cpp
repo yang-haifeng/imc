@@ -1,9 +1,9 @@
 #include "Grid.h"
 
 // In 1,2 frame:
-// p = P0 cos(i)^2 / (1+P0 sin(i)^2)
-// I = kappa_abs * (1+P0 sin(i)^2) / (1+P0)
-// Q = kappa_abs * P0 cos(i)^2 / (1+P0)
+// p = P0 sin(i)^2 / (1+P0 cos(i)^2)
+// I = kappa_abs * (1+P0 cos(i)^2) / (1+P0)
+// Q = kappa_abs * P0 sin(i)^2 / (1+P0)
 void Grid::calcEmission(int ir, int it, double x, double y, double z, 
   double nx, double ny, double nz, double &dI, double &dQ, double &dU, double &dV){
   double Bx, By, Bz;
@@ -34,8 +34,8 @@ void Grid::calcEmission(int ir, int it, double x, double y, double z,
 
   double cosga = e1[0]*et[0]+e1[1]*et[1]+e1[2]*et[2];
   double gamma = acos(cosga);
-  dI = kappa_abs * (1 + P0*(1-cosinc*cosinc)) / (1.+P0);
-  dQ = kappa_abs * P0 * cosinc*cosinc / (1+P0) * cos(2*gamma);
-  dU = kappa_abs * P0 * cosinc*cosinc / (1+P0) * sin(2*gamma);
+  dI = kappa_abs * (1 + P0*cosinc*cosinc) / (1.+P0);
+  dQ = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * cos(2*gamma);
+  dU = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * sin(2*gamma);
   dV = 0;
 }
