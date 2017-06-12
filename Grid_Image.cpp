@@ -21,6 +21,7 @@ void Grid::Image(double inc, int Npix, std::string fName){
   z0 = -y0*sin(inc);
   double x,y,z;
   double I,Q,U,V;
+  double dI,dQ,dU,dV;
   bool status;
   int ir, it;
   int irs, its;
@@ -46,7 +47,11 @@ void Grid::Image(double inc, int Npix, std::string fName){
 	this->moveOneCell(x,y,z, nx,ny,nz, ds, ir,it);
 	dtau = rho * ds * kappa_ext;
 	
-	I += bnuT * kappa_abs/kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+	this->calcEmission(irs,its, x,y,z, nx,ny,nz, dI,dQ,dU,dV);
+        I += bnuT * dI /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+        Q += bnuT * dQ /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+        U += bnuT * dU /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+        V += bnuT * dV /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
 
 	this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau, dtau, I,Q,U,V);
 	x-=nx*ds; y-=ny*ds; z-=nz*ds;

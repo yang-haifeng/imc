@@ -15,6 +15,7 @@ void Grid::zeroIter(){
   int ir, it, irs, its;
   double rho, bnuT;
   int Ncal=0;
+  double dI, dQ, dU, dV;
   for(int i=0; i<Nr; i++){ // i is index for radius in spacial grid
     r0 = rc[i];
     for(int j=0; j<Ntheta; j++){ // j is index for theta in spacial grid
@@ -44,8 +45,11 @@ void Grid::zeroIter(){
 	    	ds, ir, it); // Things to change
 	    dtau =  rho * ds * kappa_ext;
 
-	    I += bnuT * kappa_abs/kappa_ext * 
-	      (exp(-tau) - exp(-(tau+dtau))); 
+	    this->calcEmission(irs,its, x,y,z, nx,ny,nz, dI,dQ,dU,dV);
+	    I += bnuT * dI /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+	    Q += bnuT * dQ /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+	    U += bnuT * dU /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+	    V += bnuT * dV /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
 
 	    x -= nx*ds; y -= ny*ds; z -= nz*ds; // Opposite direction.
 
