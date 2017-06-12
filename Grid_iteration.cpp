@@ -1,11 +1,8 @@
 #include "Grid.h"
 #include <iostream>
-#include <fstream>
 
-void Grid::iteration(){
-  //std::ofstream Fout;
-  //Fout.open("test/positions");
-  std::cout<<"Iteration Starts."<<std::endl;
+void Grid::iteration(bool ScaFlag){
+  std::cout<<"Start of Zeroth iteration with no scattering."<<std::endl;
 
   double r0, theta0; // Initial location of the cell
   double n_phi, n_theta; // Direction of the line in question
@@ -17,6 +14,7 @@ void Grid::iteration(){
   int ir, it, irs, its;
   double rho, bnuT;
   int Ncal=0;
+  double dI, dQ, dU, dV;
   for(int i=0; i<Nr; i++){ // i is index for radius in spacial grid
     r0 = rc[i];
     for(int j=0; j<Ntheta; j++){ // j is index for theta in spacial grid
@@ -37,32 +35,28 @@ void Grid::iteration(){
 	  ny = sin(n_theta)*sin(n_phi); 
 	  nz = cos(n_theta); 
 	  I=0; Q=0; U=0; V=0;
-	  //std::cout<<"Starting point: "<<r/AU<<","<<theta<<std::endl;
-	  //std::cout<<"Angle: "<<n_theta<<","<<n_phi<<std::endl;
 	  double tau=0;
 	  while (this->isInDomain(x, y, z)){ // If still in the domain
-	    //Fout<<x/AU<<" "<<y/AU<<" "<<z/AU<<std::endl;
 	    irs = ir; its = it; // Save location information for scattering.
 	    rho = this->get_density(ir,it);
 	    bnuT = this->get_bnuT(ir, it);
-	    //std::cout<<"ir, it (before): "<<ir<<", "<<it<<std::endl;
 	    this->moveOneCell(x, y, z, nx, ny, nz, // Parameters
 	    	ds, ir, it); // Things to change
-	    //std::cout<<"ir, it (after) : "<<ir<<", "<<it<<std::endl;
-	    //std::cout<<"distance: "<<ds/AU<<std::endl;
 	    dtau =  rho * ds * kappa_ext;
 
-	    I += bnuT * kappa_abs/kappa_ext * 
-	      (exp(-tau) - exp(-(tau+dtau))); // Try new scheme.
-	    //I += rho * bnuT * ds * kappa_abs * exp(-(tau+0.5*dtau)); 
-	       // Thermal emission part. Non-polarized for now.
+	    this->calcEmission(irs,its, x,y,z, nx,ny,nz, dI,dQ,dU,dV);
+	    I += bnuT * dI /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+	    Q += bnuT * dQ /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+	    U += bnuT * dU /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+	    V += bnuT * dV /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
 
+	    if (ScaFlag){
 	    this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau, dtau, // Parameters
-	    	I, Q, U, V); // Things to change
+                I, Q, U, V); // Things to change
+	    }
 	    x -= nx*ds; y -= ny*ds; z -= nz*ds; // Opposite direction.
 
 	    tau+=dtau;
-	    //std::cout<<"tau: "<<tau<<std::endl;
 	    if (tau>10) break;
 	  }
 	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
@@ -74,7 +68,7 @@ void Grid::iteration(){
 	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
 	  	+ 3] = V;
 	  
-	  if (Ncal%100==0){
+	  if (Ncal%1000==0){
 	    std::cout<<Ncal<<" done."<<std::endl;
 	  }
 	  Ncal++;
@@ -83,9 +77,7 @@ void Grid::iteration(){
       }
     }
   }
-
   // Copy new array to past iteration. 
   for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++) Stokes[i] = Stokes1[i];
-  //Fout.close();
   return;
 }

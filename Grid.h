@@ -62,8 +62,7 @@ class Grid{
     double get_density(int ir, int it);
     double get_bnuT(int ir, int it);
 
-    void zeroIter();
-    void iteration();
+    void iteration(bool ScaFlag=true);
 
     void saveStokes(std::string fName="stokes.bin");
 
