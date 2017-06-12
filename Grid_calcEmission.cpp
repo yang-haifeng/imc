@@ -24,18 +24,19 @@ void Grid::calcEmission(int ir, int it, double x, double y, double z,
 
   double theta, phi;
   theta = acos(nz); phi = atan2(ny, nx);
-  double et[3]; //double ep[3];
+  double et[3]; double ep[3];
   et[0] = cos(theta)*cos(phi); et[1]=cos(theta)*sin(phi); et[2]=-sin(theta);
-  //ep[0] = -sin(phi);           ep[1]=cos(phi);            ep[2]=0;
+  ep[0] = -sin(phi);           ep[1]=cos(phi);            ep[2]=0;
   double e1[3]; //double e2[3];
   e1[0] = By*nz-Bz*ny;
   e1[1] = Bz*nx-Bx*nz;
   e1[2] = Bx*ny-By*nx;
 
   double cosga = e1[0]*et[0]+e1[1]*et[1]+e1[2]*et[2];
-  double gamma = acos(cosga);
+  double singa = e1[0]*ep[0]+e1[1]*ep[1]+e1[2]*ep[2];
+  //double gamma = acos(cosga);
   dI = kappa_abs * (1 + P0*cosinc*cosinc) / (1.+P0);
-  dQ = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * cos(2*gamma);
-  dU = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * sin(2*gamma);
+  dQ = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * (cosga*cosga - singa*singa);
+  dU = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * 2*cosga*singa;
   dV = 0;
 }
