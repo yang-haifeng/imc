@@ -11,8 +11,9 @@ OBJ = Grid.o \
       Grid_calc_Scattering.o \
       Grid_saveStokes.o \
       Grid_Image.o \
-      Grid_muller_Matrix.o \
+      Grid_muller_Matrix_AlignES.o \
       utils.o \
+      #Grid_muller_Matrix.o \
 
 OBJM = main.o
 
