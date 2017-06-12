@@ -12,6 +12,7 @@ OBJ = Grid.o \
       Grid_calcEmission.o \
       Grid_saveStokes.o \
       Grid_Image.o \
+      Grid_Integrate.o \
       Grid_muller_Matrix_AlignES.o \
       utils.o \
       #Grid_muller_Matrix.o \

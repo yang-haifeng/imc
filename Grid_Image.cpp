@@ -37,28 +37,8 @@ void Grid::Image(double inc, int Npix, std::string fName){
 	continue; // Move on to the next point.
       }
 
-      // Now integrate along (-nx, -ny, -nz) from (x,y,z) to get Stokes parameters
-      I=0; Q=0; U=0; V=0;
-      double tau=0;
-      while (this->isInDomain(x,y,z)){
-        irs = ir; its = it;
-	rho = this->get_density(ir,it);
-	bnuT = this->get_bnuT(ir,it);
-	this->moveOneCell(x,y,z, nx,ny,nz, ds, ir,it);
-	dtau = rho * ds * kappa_ext;
-	
-	this->calcEmission(irs,its, x,y,z, nx,ny,nz, dI,dQ,dU,dV);
-        I += bnuT * dI /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-        Q += bnuT * dQ /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-        U += bnuT * dU /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-        V += bnuT * dV /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+      this->Integrate(x,y,z, nx,ny,nz, I,Q,U,V, true);
 
-	this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau, dtau, I,Q,U,V);
-	x-=nx*ds; y-=ny*ds; z-=nz*ds;
-
-	tau+=dtau;
-	if(tau>10) break;
-      }
       Fout<<I<<" "<<Q<<" "<<U<<" "<<V<<std::endl;
     }
   }

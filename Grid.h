@@ -34,6 +34,8 @@ class Grid{
     void initBnuT();
     void initBfield();
 
+    void Integrate(double x0, double y0, double z0, double nx, double ny, double nz,
+        double &I, double &Q, double &U, double &V, bool ScaFlag=true);
     void moveOneCell(double x, double y, double z, double nx, double ny, double nz,
     	double &ds, int &ir, int &it);
     void calc_Scattering(int ir, int it, double x, double y, double z, 
