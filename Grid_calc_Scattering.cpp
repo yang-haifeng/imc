@@ -33,6 +33,7 @@ void Grid::calc_Scattering(int ir, int it, double x, double y, double z,
       muller_Matrix(thetaI, phiI+phi, // Incoming light direction
         nx, ny, nz, // Outgoing light direction
       	Iin, Qin, Uin, Vin, // Incoming radiation
+	phi, // We need to know the phi location of the point
 	dIdOmega, dQdOmega, dUdOmega, dVdOmega, // Outgoing radiation
 	ir, it); // (ir, it) is passed for future implimentation of aligned grains
 

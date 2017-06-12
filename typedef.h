@@ -5,3 +5,4 @@
 
 #define PI 3.1415926
 
+#define P0 0.1

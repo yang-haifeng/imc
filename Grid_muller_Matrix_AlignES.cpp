@@ -5,6 +5,7 @@
 // I didn't bother with Eigen package in this version. 
 // This might be necessary in the future when rotation of Stokes paramters
 // is necessary.
+double product(double e1[3], double M[3][3], double e2[3]);
 
 // Calculate Muller's matrix, or rather phase matrix (normalized to 1).
 // Apply to (I, Q, U, V) and get how much radiation per optical depth (dI,dQ,dU,dV)
@@ -36,9 +37,36 @@ void Grid::muller_Matrix(double theta, double phi, double nx, double ny, double 
   e2t[0]=cos(theta2)*cos(phi2); e2t[1]=cos(theta2)*sin(phi2); e2t[2]=-sin(theta2);
   e2p[0]= -sin(phi2);           e2p[1]=cos(phi2);             e2p[2]=0;
 
+  // Here's where electrostatic approximation comes in:
+  // Sij = ei * A * ej;
+  // A = diag{ a1, a1, a3} in grain frame.
+  double Bx, By, Bz;
+  Bx = Bfield[ (ir*Ntheta+it)*3+0 ];
+  By = Bfield[ (ir*Ntheta+it)*3+1 ];
+  Bz = Bfield[ (ir*Ntheta+it)*3+2 ];
+  double B = sqrt(Bx*Bx+By*By+Bz*Bz);
+  Bx/=B; By/=B; Bz/=B; // Normalize B field first.
+  double tBx, tBy; // Rotate B field by phip, the location of the point;
+  tBx = Bx*cos(phip)-By*sin(phip); tBy = Bx*sin(phip)+By*cos(phip);
+  Bx = tBx; By=tBy;
+  double thetaB, phiB;
+  thetaB = acos(Bz); phiB = atan2(By,Bx);
+
+  double a1 = 1.; double a3 = (1-P0)/(1+P0)*a1;
+  double a[3][3];
+  a[0][0] = a1+ (a3-a1) * cos(phiB)*cos(phiB)*sin(thetaB)*sin(thetaB);
+  a[0][1] = (a3-a1) * sin(phiB)*cos(phiB)*sin(thetaB)*sin(thetaB);
+  a[0][2] = (a3-a1) * cos(thetaB)*sin(thetaB)*cos(thetaB);
+  a[1][0] = a[0][1];
+  a[1][1] = a1+ (a3-a1)*sin(phiB)*sin(phiB)*sin(thetaB)*sin(thetaB);
+  a[1][2] = (a3-a1) * sin(thetaB)*sin(thetaB)*cos(thetaB);
+  a[2][0] = a[0][2];
+  a[2][1] = a[1][2];
+  a[2][2] = a1 + (a3-a1)*cos(thetaB)*cos(thetaB);
+
   double S11, S12, S21, S22;
-  S11 = dot(e1t, e2t); S12 = dot(e1p, e2t);
-  S21 = dot(e1t, e2p); S22 = dot(e1p, e2p);
+  S11 = product(e1t, a, e2t); S12 = product(e1p, a, e2t);
+  S21 = product(e1t, a, e2p); S22 = product(e1p, a, e2p);
 
   double Z11, Z12, Z13, Z14;
   double Z21, Z22, Z23, Z24;
@@ -71,4 +99,8 @@ void Grid::muller_Matrix(double theta, double phi, double nx, double ny, double 
   dV = (Z41*I+Z42*Q+Z43*U+Z44*V)*3/8./PI*kappa_sca;
 
   return;
+}
+
+double product(double e1[3], double M[3][3], double e2[3]){
+  return 0.;
 }
