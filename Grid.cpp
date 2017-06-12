@@ -65,6 +65,7 @@ Grid::Grid(){
 
   this->initDensity();
   this->initBnuT();
+  this->initBfield();
 }
 
 Grid::~Grid(){
