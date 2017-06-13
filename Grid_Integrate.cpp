@@ -24,7 +24,7 @@ Vector Grid::Integrate(double x0, double y0, double z0,
     U += dS[2] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
     V += dS[3] /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
 
-    if(ScaFlag) this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau,dtau, I,Q,U,V);
+    if(ScaFlag) this->calcScattering(irs,its, x,y,z, nx,ny,nz, tau,dtau, I,Q,U,V);
     x-=nx*ds; y-=ny*ds; z-=nz*ds;
 
     tau+=dtau;

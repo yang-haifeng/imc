@@ -5,7 +5,7 @@
 // calculate the contribution of those radiations towards light propagating
 // in (nx, ny, nz) direction through scattering.
 // (x, y, z) is needed to determine dphi, since this is a 2D code.
-void Grid::calc_Scattering(int ir, int it, double x, double y, double z,  
+void Grid::calcScattering(int ir, int it, double x, double y, double z,  
            double nx, double ny, double nz, double tau, double dtau, 
 	   double &I, double &Q, double &U, double &V){
   double rho = this->get_density(ir,it);
