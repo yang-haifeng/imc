@@ -7,7 +7,7 @@ OBJ = Grid.o \
       Grid_utils.o \
       Grid_iteration.o \
       Grid_moveOneCell.o \
-      Grid_calc_Scattering.o \
+      Grid_calcScattering.o \
       Grid_calcEmission.o \
       Grid_saveStokes.o \
       Grid_Image.o \
