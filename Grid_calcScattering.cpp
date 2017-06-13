@@ -8,43 +8,32 @@
 Vector Grid::calcScattering(int ir, int it, double x, double y, double z,  
            double nx, double ny, double nz){
   double rho = this->get_density(ir,it);
-  double Iin, Qin, Uin, Vin;
-  double dI=0., dQ=0., dU=0., dV=0.;
-  double dIdOmega=0., dQdOmega=0., dUdOmega=0., dVdOmega=0.;
-  //double nx1, ny1, nz1;
+  Vector S, Sin; for (int i=0;i<4;i++) S[i]=0.;
+  Matrix M;
   double phiI, thetaI;
-  double phi;
-  phi = atan2(y, x);
+  double phi=atan2(y, x);
   for (int i=0; i<NphiI; i++){
     phiI = phiIc[i];
     for (int j=0; j<NthetaI; j++){
       thetaI = thetaIc[j];
 
-      Iin = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
+      Sin[0] = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
         + i*NthetaI*4 + j*4 + 0];
-      Qin = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
+      Sin[1] = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
         + i*NthetaI*4 + j*4 + 1];
-      Uin = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
+      Sin[2] = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
         + i*NthetaI*4 + j*4 + 2];
-      Vin = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
+      Sin[3] = Stokes[ir*Ntheta*NphiI*NthetaI*4 + it*NphiI*NthetaI*4 
         + i*NthetaI*4 + j*4 + 3];
       
-      muller_Matrix(thetaI, phiI+phi, // Incoming light direction
+      M = muller_Matrix(thetaI, phiI+phi, // Incoming light direction
         nx, ny, nz, // Outgoing light direction
-      	Iin, Qin, Uin, Vin, // Incoming radiation
 	phi, // We need to know the phi location of the point
-	dIdOmega, dQdOmega, dUdOmega, dVdOmega, // Outgoing radiation
 	ir, it); // (ir, it) is passed for future implimentation of aligned grains
 
-      dI += dIdOmega * sin(thetaI) * dthetaI * dphiI;
-      dQ += dQdOmega * sin(thetaI) * dthetaI * dphiI;
-      dU += dUdOmega * sin(thetaI) * dthetaI * dphiI;
-      dV += dVdOmega * sin(thetaI) * dthetaI * dphiI;
+      S += M * Sin * sin(thetaI) * dthetaI * dphiI;
     }
   }
-
-  Vector S;
-  S[0] = dI; S[1] = dQ; S[2] = dU; S[3] = dV;
 
   return S;
 }

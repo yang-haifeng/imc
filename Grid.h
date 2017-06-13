@@ -41,10 +41,8 @@ class Grid{
     Vector calcEmission(int ir, int it, double x, double y, double z, 
     	double nx, double ny, double nz);
 
-    void muller_Matrix(double theta, double phi, double nx, double ny, double nz,
-    	double I, double Q, double U, double V, double phip,
-    	double &dI, double &dQ, double &dU, double &dV,
-	int ir, int it);
+    Matrix muller_Matrix(double theta, double phi,
+    	double nx, double ny, double nz, double phip, int ir, int it);
 
     void getSurface(double &x, double &y, double &z, double nx, double ny, 
         double nz, bool &status, int &ir, int &it);
