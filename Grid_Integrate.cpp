@@ -7,14 +7,13 @@ Vector Grid::Integrate(double x0, double y0, double z0,
   this->findCell(x0,y0,z0,ir,it);
 
   double x=x0, y=y0, z=z0;
-  double rho, bnuT;
+  double rho;
   double ds, dtau, tau=0;
   double I=0, Q=0, U=0, V=0;
   Vector dSe, dSs;
   while (this->isInDomain(x,y,z)){
     irs = ir; its=it;
     rho = this->get_density(ir, it);
-    bnuT = this->get_bnuT(ir, it);
     this->moveOneCell(x,y,z, nx,ny,nz, ds, ir,it);
     dtau = rho * ds * kappa_ext;
 
