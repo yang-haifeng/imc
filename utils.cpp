@@ -5,3 +5,29 @@
 double dot(double * a, double * b){
   return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
 }
+
+// Calculate the matrix multiplication of two 4x4 matrices.
+Matrix operator*(Matrix a, Matrix b){ 
+  Matrix s;
+  for (int i=0; i<4; i++){
+    for (int j=0; j<4; j++){
+      s[4*i+j] = 0;
+      for (int k=0; k<4; k++){
+        s[4*i+j] = a[4*i+k] * b[4*k+j];
+      }   
+    }   
+  }
+  return s;
+}
+
+// Calculate the produce of a 4x4 matrix and a length 4 vector.
+Vector operator*(Matrix a, Vector b){ 
+  Vector s;
+  for (int i=0; i<4; i++){
+    s[i] = 0;
+    for (int j=0; j<4; j++){
+      s[i] += a[4*i+j] * b[j];
+    }   
+  }
+  return s;
+}
