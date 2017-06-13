@@ -36,9 +36,8 @@ class Grid{
         double nx,double ny,double nz, bool ScaFlag=true);
     void moveOneCell(double x, double y, double z, double nx, double ny, double nz,
     	double &ds, int &ir, int &it);
-    void calcScattering(int ir, int it, double x, double y, double z, 
-    	double nx, double ny, double nz, double tau, double dtau,
-	double &I, double &Q, double &U, double &V);
+    Vector calcScattering(int ir, int it, double x, double y, double z, 
+    	double nx, double ny, double nz);
     Vector calcEmission(int ir, int it, double x, double y, double z, 
     	double nx, double ny, double nz);
 

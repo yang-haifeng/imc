@@ -10,7 +10,7 @@ Vector Grid::Integrate(double x0, double y0, double z0,
   double rho, bnuT;
   double ds, dtau, tau=0;
   double I=0, Q=0, U=0, V=0;
-  Vector dS;
+  Vector dSe, dSs;
   while (this->isInDomain(x,y,z)){
     irs = ir; its=it;
     rho = this->get_density(ir, it);
@@ -18,14 +18,15 @@ Vector Grid::Integrate(double x0, double y0, double z0,
     this->moveOneCell(x,y,z, nx,ny,nz, ds, ir,it);
     dtau = rho * ds * kappa_ext;
 
-    dS = this->calcEmission(irs,its, x,y,z, nx,ny,nz);
-    I += dS[0] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    Q += dS[1] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    U += dS[2] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    V += dS[3] /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+    dSe = this->calcEmission(irs,its, x,y,z, nx,ny,nz);
 
-    if(ScaFlag) this->calcScattering(irs,its, x,y,z, nx,ny,nz, tau,dtau, I,Q,U,V);
+    if(ScaFlag) dSs=this->calcScattering(irs,its, x,y,z, nx,ny,nz);
     x-=nx*ds; y-=ny*ds; z-=nz*ds;
+
+    I += (dSe[0]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+    Q += (dSe[1]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+    U += (dSe[2]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+    V += (dSe[3]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
 
     tau+=dtau;
     if(tau>10) break;
