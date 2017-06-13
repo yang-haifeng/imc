@@ -12,7 +12,7 @@ void Grid::iteration(bool ScaFlag){
   double r, theta; // Current location of the calculation point
   double x, y, z;
   double nx, ny, nz;
-  double I,Q,U,V;
+  Vector S;
   int ir, it;
   int Ncal=0;
   for(int i=0; i<Nr; i++){ // i is index for radius in spacial grid
@@ -35,16 +35,16 @@ void Grid::iteration(bool ScaFlag){
 	  ny = sin(n_theta)*sin(n_phi); 
 	  nz = cos(n_theta); 
 
-	  this->Integrate(x,y,z, nx,ny,nz, I,Q,U,V, ScaFlag);
+	  S = this->Integrate(x,y,z, nx,ny,nz, ScaFlag);
 
 	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
-	  	+ 0] = I;
+	  	+ 0] = S[0];
 	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
-	  	+ 1] = Q;
+	  	+ 1] = S[1];
 	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
-	  	+ 2] = U;
+	  	+ 2] = S[2];
 	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
-	  	+ 3] = V;
+	  	+ 3] = S[3];
 	  
 	  if (Ncal%1000==0){
 	    std::cout<<Ncal<<" done."<<std::endl;

@@ -1,7 +1,7 @@
 #include "Grid.h"
 
-void Grid::Integrate(double x0,double y0,double z0, double nx,double ny,double nz,
-    double &I, double &Q, double &U, double &V, bool ScaFlag){
+Vector Grid::Integrate(double x0, double y0, double z0, 
+    double nx,double ny,double nz, bool ScaFlag){
   int ir, it;
   int irs, its;
   this->findCell(x0,y0,z0,ir,it);
@@ -9,7 +9,7 @@ void Grid::Integrate(double x0,double y0,double z0, double nx,double ny,double n
   double x=x0, y=y0, z=z0;
   double rho, bnuT;
   double ds, dtau, tau=0;
-  I=0; Q=0; U=0; V=0;
+  double I=0, Q=0, U=0, V=0;
   double dI,dQ,dU,dV;
   while (this->isInDomain(x,y,z)){
     irs = ir; its=it;
@@ -30,4 +30,7 @@ void Grid::Integrate(double x0,double y0,double z0, double nx,double ny,double n
     tau+=dtau;
     if(tau>10) break;
   }
+  Vector S;
+  S[0]=I; S[1]=Q; S[2]=U; S[3]=V;
+  return S;
 }

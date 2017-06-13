@@ -20,13 +20,9 @@ void Grid::Image(double inc, int Npix, std::string fName){
   x0 = y0*cos(inc);
   z0 = -y0*sin(inc);
   double x,y,z;
-  double I,Q,U,V;
-  double dI,dQ,dU,dV;
+  Vector S;
   bool status;
   int ir, it;
-  int irs, its;
-  double rho, bnuT;
-  double ds, dtau;
   for (int i=0; i<Npix; i++){
     for (int j=0; j<Npix; j++){
       x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
@@ -37,9 +33,9 @@ void Grid::Image(double inc, int Npix, std::string fName){
 	continue; // Move on to the next point.
       }
 
-      this->Integrate(x,y,z, nx,ny,nz, I,Q,U,V, true);
+      S = this->Integrate(x,y,z, nx,ny,nz, true);
 
-      Fout<<I<<" "<<Q<<" "<<U<<" "<<V<<std::endl;
+      Fout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
     }
   }
   Fout.close();
