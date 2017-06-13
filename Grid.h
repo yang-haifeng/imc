@@ -39,9 +39,8 @@ class Grid{
     void calc_Scattering(int ir, int it, double x, double y, double z, 
     	double nx, double ny, double nz, double tau, double dtau,
 	double &I, double &Q, double &U, double &V);
-    void calcEmission(int ir, int it, double x, double y, double z, 
-    	double nx, double ny, double nz, 
-	double &dI, double &dQ, double &dU, double &dV);
+    Vector calcEmission(int ir, int it, double x, double y, double z, 
+    	double nx, double ny, double nz);
 
     void muller_Matrix(double theta, double phi, double nx, double ny, double nz,
     	double I, double Q, double U, double V, double phip,

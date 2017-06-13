@@ -4,8 +4,8 @@
 // p = P0 sin(i)^2 / (1+P0 cos(i)^2)
 // I = kappa_abs * (1+P0 cos(i)^2) / (1+P0)
 // Q = kappa_abs * P0 sin(i)^2 / (1+P0)
-void Grid::calcEmission(int ir, int it, double x, double y, double z, 
-  double nx, double ny, double nz, double &dI, double &dQ, double &dU, double &dV){
+Vector Grid::calcEmission(int ir, int it, double x, double y, double z, 
+    double nx, double ny, double nz){
   double Bx, By, Bz;
   Bx = Bfield[(ir*Ntheta+it)*3+0];
   By = Bfield[(ir*Ntheta+it)*3+1];
@@ -34,9 +34,11 @@ void Grid::calcEmission(int ir, int it, double x, double y, double z,
 
   double cosga = e1[0]*et[0]+e1[1]*et[1]+e1[2]*et[2];
   double singa = e1[0]*ep[0]+e1[1]*ep[1]+e1[2]*ep[2];
-  //double gamma = acos(cosga);
-  dI = kappa_abs * (1 + P0*cosinc*cosinc) / (1.+P0);
-  dQ = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * (cosga*cosga - singa*singa);
-  dU = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * 2*cosga*singa;
-  dV = 0;
+  Vector S;
+  S[0] = kappa_abs * (1 + P0*cosinc*cosinc) / (1.+P0);
+  S[1] = kappa_abs * P0*(1-cosinc*cosinc) / (1+P0) * (cosga*cosga - singa*singa);
+  S[2] = kappa_abs * P0 * (1-cosinc*cosinc) / (1+P0) * 2*cosga*singa;
+  S[3] = 0.;
+
+  return S;
 }
