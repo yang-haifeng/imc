@@ -19,10 +19,10 @@ Vector Grid::Integrate(double x0, double y0, double z0,
     dtau = rho * ds * kappa_ext;
 
     dS = this->calcEmission(irs,its, x,y,z, nx,ny,nz);
-    I += bnuT * dS[0] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    Q += bnuT * dS[1] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    U += bnuT * dS[2] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    V += bnuT * dS[3] /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+    I += dS[0] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+    Q += dS[1] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+    U += dS[2] /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+    V += dS[3] /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
 
     if(ScaFlag) this->calc_Scattering(irs,its, x,y,z, nx,ny,nz, tau,dtau, I,Q,U,V);
     x-=nx*ds; y-=ny*ds; z-=nz*ds;
