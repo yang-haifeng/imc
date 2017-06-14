@@ -12,10 +12,10 @@ OBJ = Grid.o \
       Grid_saveStokes.o \
       Grid_Image.o \
       Grid_Integrate.o \
-      Grid_muller_Matrix_AlignES.o \
+      Grid_muller_Matrix.o \
       utils.o \
       Grid_Test.o
-      #Grid_muller_Matrix.o \
+      #Grid_muller_Matrix_AlignES.o \
 
 OBJM = main.o
 
