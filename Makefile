@@ -14,6 +14,7 @@ OBJ = Grid.o \
       Grid_Integrate.o \
       Grid_muller_Matrix_AlignES.o \
       utils.o \
+      Grid_Test.o
       #Grid_muller_Matrix.o \
 
 OBJM = main.o

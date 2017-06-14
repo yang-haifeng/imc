@@ -61,6 +61,8 @@ class Grid{
     void saveStokes(std::string fName="stokes.bin");
 
     void Image(double inc, int Npix=100, std::string fName="image.out");
+
+    void Test();
 };
 
 #endif
