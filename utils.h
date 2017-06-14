@@ -12,7 +12,7 @@ Matrix operator*(Matrix a, Matrix b);
 Vector operator*(Matrix a, Vector b);
 Vector operator*(Vector a, double b);
 
-Vector& operator+=(Vector& lhs, const Vector& rhs);
+Vector& operator+=(Vector& lhs, const Vector rhs);
 Matrix& operator*=(Matrix& lhs, const double rhs);
 
 #endif

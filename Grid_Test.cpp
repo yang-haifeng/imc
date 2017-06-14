@@ -28,9 +28,6 @@ void Grid::Test(){
     m = this->muller_Matrix(theta, phi, nx,ny,nz, 0., 0,0);
     s = m*si; //*dthetaI*dphiI*sin(theta);
 
-    nx = sin(theta0) * cos(phi0);
-    ny = sin(theta0) * sin(phi0);
-    nz = cos(theta0);
   //for (int i=0; i<4; i++) s[i] = 0;
   //for (int k=0; k<N; k++){
   // for (int l=0; l<N; l++){

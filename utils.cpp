@@ -40,9 +40,9 @@ Vector operator*(Vector a, double b){
   return s;
 }
 
-Vector& operator+=(Vector& lhs, const Vector& rhs){
+Vector& operator+=(Vector& lhs, const Vector rhs){
   for (int i=0; i<4; i++){
-    lhs[i] = rhs[i];
+    lhs[i] += rhs[i];
   }
   return lhs;
 }
