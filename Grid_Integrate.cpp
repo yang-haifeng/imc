@@ -23,9 +23,9 @@ Vector Grid::Integrate(double x0, double y0, double z0,
     x-=nx*ds; y-=ny*ds; z-=nz*ds;
 
     I += (dSe[0]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    Q += (dSe[1]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    U += (dSe[2]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    V += (dSe[3]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+    Q += (dSe[1]+dSs[1]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+    U += (dSe[2]+dSs[2]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
+    V += (dSe[3]+dSs[3]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
 
     tau+=dtau;
     if(tau>10) break;
