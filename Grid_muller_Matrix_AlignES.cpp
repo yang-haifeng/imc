@@ -66,34 +66,28 @@ Matrix Grid::muller_Matrix(double theta, double phi,
   S11 = product(e1t, a, e2t); S12 = product(e1p, a, e2t);
   S21 = product(e1t, a, e2p); S22 = product(e1p, a, e2p);
 
-  double Z[4][4];
+  Matrix M;
 
   // There seems to be some difference in the definition of Stokes parameters,
   // especially Stokes U. I've changed some '-' signs and marked the places changed
   // Ref /Users/haifengyang/working/formal_sol/models.cpp l53-l68.
-  Z[0][0] = 0.5*(S11*S11 + S12*S12 + S21*S21 + S22*S22);
-  Z[0][1] = 0.5*(S11*S11 - S12*S12 + S21*S21 - S22*S22);
-  Z[0][2] = (S11*S12 + S22*S21); // Here
-  Z[0][3] = 0.;
-  Z[1][0] = 0.5*(S11*S11 + S12*S12 - S21*S21 - S22*S22);
-  Z[1][1] = 0.5*(S11*S11 - S12*S12 - S21*S21 + S22*S22);
-  Z[1][2] = (S11*S12 - S22*S21); // Here
-  Z[1][3] = 0.;
-  Z[2][0] = (S11*S21 + S22*S12); // Here
-  Z[2][1] = (S11*S21 - S22*S12); // Here
-  Z[2][2] = (S11*S22 + S12*S21);
-  Z[2][3] = 0.;
-  Z[3][0] = 0.;
-  Z[3][1] = 0.;
-  Z[3][2] = 0.;
-  Z[3][3] = (S22*S11 - S12*S21);
+  M[0*4+0] = 0.5*(S11*S11 + S12*S12 + S21*S21 + S22*S22);
+  M[0*4+1] = 0.5*(S11*S11 - S12*S12 + S21*S21 - S22*S22);
+  M[0*4+2] = (S11*S12 + S22*S21); // Here
+  M[0*4+3] = 0.;
+  M[1*4+0] = 0.5*(S11*S11 + S12*S12 - S21*S21 - S22*S22);
+  M[1*4+1] = 0.5*(S11*S11 - S12*S12 - S21*S21 + S22*S22);
+  M[1*4+2] = (S11*S12 - S22*S21); // Here
+  M[1*4+3] = 0.;
+  M[2*4+0] = (S11*S21 + S22*S12); // Here
+  M[2*4+1] = (S11*S21 - S22*S12); // Here
+  M[2*4+2] = (S11*S22 + S12*S21);
+  M[2*4+3] = 0.;
+  M[3*4+0] = 0.;
+  M[3*4+1] = 0.;
+  M[3*4+2] = 0.;
+  M[3*4+3] = (S22*S11 - S12*S21);
 
-  Matrix M;
-  for (int i=0; i<4; i++){
-    for (int j=0; j<4; j++){
-      M[i*4+j] = Z[i][j];
-    }
-  }
   M *= 3./8.*PI*kappa_sca;
 
   return M;
