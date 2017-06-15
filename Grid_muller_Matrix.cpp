@@ -13,10 +13,8 @@
 // (ir, it), the cell index is also passed in case we want aligned grains
 // Return the following:
 //   int_Omega M S_in dOmega
-void Grid::muller_Matrix(double theta, double phi, double nx, double ny, double nz,
-    double I, double Q, double U, double V, double phip,
-    double &dI, double &dQ, double &dU, double &dV,
-    int ir, int it){
+Matrix Grid::muller_Matrix(double theta, double phi, 
+    double nx, double ny, double nz, double phip, int ir, int it){
 // This is the version with Rayleigh limit for spherical dust grains.
   double e1t[3], e1p[3], e2t[3], e2p[3]; 
   // e1t, e1p defines the two polarization axes for incoming radiation
@@ -40,35 +38,29 @@ void Grid::muller_Matrix(double theta, double phi, double nx, double ny, double 
   S11 = dot(e1t, e2t); S12 = dot(e1p, e2t);
   S21 = dot(e1t, e2p); S22 = dot(e1p, e2p);
 
-  double Z11, Z12, Z13, Z14;
-  double Z21, Z22, Z23, Z24;
-  double Z31, Z32, Z33, Z34;
-  double Z41, Z42, Z43, Z44;
+  Matrix M;
 
   // There seems to be some difference in the definition of Stokes parameters,
   // especially Stokes U. I've changed some '-' signs and marked the places changed
   // Ref /Users/haifengyang/working/formal_sol/models.cpp l53-l68.
-  Z11 = 0.5*(S11*S11 + S12*S12 + S21*S21 + S22*S22);
-  Z12 = 0.5*(S11*S11 - S12*S12 + S21*S21 - S22*S22);
-  Z13 = (S11*S12 + S22*S21); // Here
-  Z14 = 0.;
-  Z21 = 0.5*(S11*S11 + S12*S12 - S21*S21 - S22*S22);
-  Z22 = 0.5*(S11*S11 - S12*S12 - S21*S21 + S22*S22);
-  Z23 = (S11*S12 - S22*S21); // Here
-  Z24 = 0.;
-  Z31 = (S11*S21 + S22*S12); // Here
-  Z32 = (S11*S21 - S22*S12); // Here
-  Z33 = (S11*S22 + S12*S21);
-  Z34 = 0.;
-  Z41 = 0.;
-  Z42 = 0.;
-  Z43 = 0.;
-  Z44 = (S22*S11 - S12*S21);
+  M[0*4+0] = 0.5*(S11*S11 + S12*S12 + S21*S21 + S22*S22);
+  M[0*4+1] = 0.5*(S11*S11 - S12*S12 + S21*S21 - S22*S22);
+  M[0*4+2] = (S11*S12 + S22*S21); // Here
+  M[0*4+3] = 0.;
+  M[1*4+0] = 0.5*(S11*S11 + S12*S12 - S21*S21 - S22*S22);
+  M[1*4+1] = 0.5*(S11*S11 - S12*S12 - S21*S21 + S22*S22);
+  M[1*4+2] = (S11*S12 - S22*S21); // Here
+  M[1*4+3] = 0.;
+  M[2*4+0] = (S11*S21 + S22*S12); // Here
+  M[2*4+1] = (S11*S21 - S22*S12); // Here
+  M[2*4+2] = (S11*S22 + S12*S21);
+  M[2*4+3] = 0.;
+  M[3*4+0] = 0.;
+  M[3*4+1] = 0.;
+  M[3*4+2] = 0.;
+  M[3*4+3] = (S22*S11 - S12*S21);
 
-  dI = (Z11*I+Z12*Q+Z13*U+Z14*V)*3/8./PI*kappa_sca;
-  dQ = (Z21*I+Z22*Q+Z23*U+Z24*V)*3/8./PI*kappa_sca;
-  dU = (Z31*I+Z32*Q+Z33*U+Z34*V)*3/8./PI*kappa_sca;
-  dV = (Z41*I+Z42*Q+Z43*U+Z44*V)*3/8./PI*kappa_sca;
+  M *= 3./8.*PI*kappa_sca;
 
-  return;
+  return M;
 }
