@@ -40,6 +40,22 @@ Vector operator*(Vector a, double b){
   return s;
 }
 
+Vector operator/(Vector a, double b){
+  Vector s;
+  for (int i=0; i<4; i++){
+    s[i] = a[i] / b;
+  }
+  return s;
+}
+
+Vector operator+(Vector a, Vector b){
+  Vector s;
+  for (int i=0; i<4; i++){
+    s[i] = a[i] + b[i];
+  }
+  return s;
+}
+
 Vector& operator+=(Vector& lhs, const Vector rhs){
   for (int i=0; i<4; i++){
     lhs[i] += rhs[i];
