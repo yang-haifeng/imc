@@ -9,8 +9,8 @@
 // (x, y, z) is needed to determine dphi, since this is a 2D code.
 Vector Grid::calcScattering(int ir, int it, double x, double y, double z,  
            double nx, double ny, double nz){
-  //std::ofstream Fout;
-  //Fout.open("new.dat");
+  std::ofstream Fout;
+  Fout.open("new.dat");
   double rho = this->get_density(ir,it);
   Vector S, dS, Sin; for (int i=0;i<4;i++) S[i]=0.;
   Matrix M;
@@ -36,16 +36,16 @@ Vector Grid::calcScattering(int ir, int it, double x, double y, double z,
 	phi, // We need to know the phi location of the point
 	ir, it); // (ir, it) is passed for future implimentation of aligned grains
 
-      //dS = M*Sin;
+      dS = M*Sin;
       //S += dS * sin(thetaI) * dthetaI * dphiI;
       S += M * Sin * sin(thetaI) * dthetaI * dphiI;
 
-      //Fout<<dS[0]<<" "<<dS[1]<<" "<<dS[2]<<" "<<dS[3]<<std::endl;
+      Fout<<dS[0]<<" "<<dS[1]<<" "<<dS[2]<<" "<<dS[3]<<std::endl;
     }
   }
 
-  std::cout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
-  //Fout.close();
+  //std::cout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
+  Fout.close();
 
   return S;
 }

@@ -36,6 +36,9 @@ Vector Grid::Integrate(double x0, double y0, double z0,
 
     tau+=dtau;
     if(tau>10) break;
+
+    //std::cout<<I<<" "<<Q<<" "<<U<<" "<<V<<std::endl;
+    std::cout<<dI<<" "<<dQ<<" "<<dU<<" "<<dV<<std::endl;
   }
   Vector S;
   S[0]=I; S[1]=Q; S[2]=U; S[3]=V;
