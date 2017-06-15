@@ -31,3 +31,39 @@ Vector operator*(Matrix a, Vector b){
   }
   return s;
 }
+
+Vector operator*(Vector a, double b){
+  Vector s;
+  for (int i=0; i<4; i++){
+    s[i] = a[i] * b;
+  }
+  return s;
+}
+
+Vector operator/(Vector a, double b){
+  Vector s;
+  for (int i=0; i<4; i++){
+    s[i] = a[i] / b;
+  }
+  return s;
+}
+
+Vector operator+(Vector a, Vector b){
+  Vector s;
+  for (int i=0; i<4; i++){
+    s[i] = a[i] + b[i];
+  }
+  return s;
+}
+
+Vector& operator+=(Vector& lhs, const Vector rhs){
+  for (int i=0; i<4; i++){
+    lhs[i] += rhs[i];
+  }
+  return lhs;
+}
+
+Matrix& operator*=(Matrix& lhs, const double rhs){
+  for (int i=0; i<16; i++) lhs[i]*=rhs;
+  return lhs;
+}

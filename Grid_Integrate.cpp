@@ -9,8 +9,7 @@ Vector Grid::Integrate(double x0, double y0, double z0,
   double x=x0, y=y0, z=z0;
   double rho;
   double ds, dtau, tau=0;
-  double I=0, Q=0, U=0, V=0;
-  Vector dSe, dSs;
+  Vector S, dSe, dSs; for (int i=0; i<4; i++) S[i]=0;
   while (this->isInDomain(x,y,z)){
     irs = ir; its=it;
     rho = this->get_density(ir, it);
@@ -22,15 +21,11 @@ Vector Grid::Integrate(double x0, double y0, double z0,
     if(ScaFlag) dSs=this->calcScattering(irs,its, x,y,z, nx,ny,nz);
     x-=nx*ds; y-=ny*ds; z-=nz*ds;
 
-    I += (dSe[0]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    Q += (dSe[1]+dSs[1]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    U += (dSe[2]+dSs[2]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
-    V += (dSe[3]+dSs[3]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+    S += (dSe+dSs) / kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
 
     tau+=dtau;
     if(tau>10) break;
   }
-  Vector S;
-  S[0]=I; S[1]=Q; S[2]=U; S[3]=V;
+
   return S;
 }

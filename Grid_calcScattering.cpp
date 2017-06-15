@@ -11,10 +11,8 @@ Vector Grid::calcScattering(int ir, int it, double x, double y, double z,
   double Iin, Qin, Uin, Vin;
   double dI=0., dQ=0., dU=0., dV=0.;
   double dIdOmega=0., dQdOmega=0., dUdOmega=0., dVdOmega=0.;
-  //double nx1, ny1, nz1;
   double phiI, thetaI;
-  double phi;
-  phi = atan2(y, x);
+  double phi = atan2(y, x);
   for (int i=0; i<NphiI; i++){
     phiI = phiIc[i];
     for (int j=0; j<NthetaI; j++){
