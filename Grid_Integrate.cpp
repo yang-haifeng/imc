@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include <iostream>
 
 Vector Grid::Integrate(double x0, double y0, double z0, 
     double nx,double ny,double nz, bool ScaFlag){
@@ -26,6 +27,12 @@ Vector Grid::Integrate(double x0, double y0, double z0,
     Q += (dSe[1]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
     U += (dSe[2]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau))); 
     V += (dSe[3]+dSs[0]) /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
+
+    double dI, dQ, dU, dV;
+    dI = dSs[0];
+    dQ = dSs[1];
+    dU = dSs[2];
+    dV = dSs[3];
 
     tau+=dtau;
     if(tau>10) break;

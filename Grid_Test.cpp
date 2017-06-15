@@ -5,6 +5,9 @@
 using namespace std;
 
 void Grid::Test(){
+  this->calcScattering(0, 0, AU, AU, 0, 0,0,1);
+
+/*
   double theta, phi;
   double theta0, phi0;
   double nx, ny, nz;
@@ -29,7 +32,7 @@ void Grid::Test(){
   //theta = PI/100*50;
   //phi = 2*PI/100*20;
   //m = this->muller_Matrix(theta, phi, nx,ny,nz, 0., 0,0);
-  //s = m*si; //*dthetaI*dphiI*sin(theta);
+  //s = m*si; // *dthetaI*dphiI*sin(theta);
 
     for (int i=0; i<4; i++) s[i] = 0;
     for (int k=0; k<N; k++){
@@ -43,4 +46,5 @@ void Grid::Test(){
     cout<<s[0]<<" "<<s[1]<<" "<<s[2]<<" "<<s[3]<<endl;
    }
   }
+*/
 }
