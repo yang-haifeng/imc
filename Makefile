@@ -9,12 +9,15 @@ OBJ = Grid.o \
       Grid_moveOneCell.o \
       Grid_calcScattering.o \
       Grid_calcEmission.o \
+      Grid_calcExtinction.o \
       Grid_saveStokes.o \
       Grid_Image.o \
-      Grid_Integrate.o \
+      Grid_Integrate_Align.o \
       Grid_muller_Matrix_AlignES.o \
       utils.o \
-      #Grid_muller_Matrix.o \
+      # \
+      Grid_muller_Matrix.o \
+      Grid_Integrate.o \
 
 OBJM = main.o
 

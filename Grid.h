@@ -40,6 +40,8 @@ class Grid{
     	double nx, double ny, double nz);
     Vector calcEmission(int ir, int it, double x, double y, double z, 
     	double nx, double ny, double nz);
+    Matrix calcExtinction(int ir, int it, double x, double y, double z, 
+    	double nx, double ny, double nz);
 
     Matrix muller_Matrix(double theta, double phi,
     	double nx, double ny, double nz, double phip, int ir, int it);
