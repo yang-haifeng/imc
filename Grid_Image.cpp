@@ -41,6 +41,26 @@ void Grid::Image(double inc, int Npix, std::string fName){
   Fout.close();
 }
 
+Vector Grid::OnePointImage(double x0, double y0, double inc){
+  double nx=sin(inc), ny=0, nz=cos(inc);
+  double x, y, z;
+  x = x0*cos(inc);
+  y = y0;
+  z = -x0*sin(inc);
+  Vector S;
+  bool status;
+  int ir, it;
+  getSurface(x, y, z, nx, ny, nz, status, ir, it);
+  if (status) { //status==true means the point is out of the domain.
+    S[0] = S[1] = S[2] = S[3] = 0.;
+    return S; // Move on to the next point.
+  }
+
+  S = this->Integrate(x,y,z, nx,ny,nz, true);
+
+  return S;
+}
+
 // getSurface function starts from the point (x, y, z) and moves in the direction
 // (nx, ny, nz), until reaches the edge of the calculation domain.
 // status=true if the initial point is already out of the calculation domain.
