@@ -20,6 +20,14 @@ Matrix operator*(Matrix a, Matrix b){
   return s;
 }
 
+Matrix operator*(Matrix a, double b){
+  Matrix S;
+  for(int i=0; i<16; i++){
+    S[i] = a[i] * b;
+  }
+  return S;
+}
+
 // Calculate the produce of a 4x4 matrix and a length 4 vector.
 Vector operator*(Matrix a, Vector b){ 
   Vector s;
@@ -65,5 +73,12 @@ Vector& operator+=(Vector& lhs, const Vector rhs){
 
 Matrix& operator*=(Matrix& lhs, const double rhs){
   for (int i=0; i<16; i++) lhs[i]*=rhs;
+  return lhs;
+}
+
+Matrix& operator-=(Matrix& lhs, const Matrix rhs){
+  for (int i=0; i<16; i++){
+    lhs[i]-=rhs[i];
+  }
   return lhs;
 }
