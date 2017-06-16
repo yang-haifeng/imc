@@ -13,7 +13,7 @@ Matrix operator*(Matrix a, Matrix b){
     for (int j=0; j<4; j++){
       s[4*i+j] = 0;
       for (int k=0; k<4; k++){
-        s[4*i+j] = a[4*i+k] * b[4*k+j];
+        s[4*i+j] += a[4*i+k] * b[4*k+j];
       }   
     }   
   }
