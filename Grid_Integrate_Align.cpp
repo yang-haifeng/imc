@@ -26,11 +26,9 @@ Vector Grid::Integrate(double x0, double y0, double z0,
 
     M = this->calcExtinction(irs,its, x,y,z, nx,ny,nz);
 
-    T -= 0.5 * T * M * rho * ds;
-
     S += T * (dSe+dSs) * rho * ds; // Might be M^-1 T M instead of just T.
 
-    T -= 0.5 * T * M * rho * ds;
+    T -= T * M * rho * ds;
     x-=nx*ds; y-=ny*ds; z-=nz*ds;
 
     //S += (dSe+dSs) /kappa_ext * (exp(-tau) - exp(-(tau+dtau)));
