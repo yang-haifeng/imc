@@ -28,6 +28,14 @@ Matrix operator*(Matrix a, double b){
   return S;
 }
 
+Matrix operator*(double b, Matrix a){
+  Matrix S;
+  for(int i=0; i<16; i++){
+    S[i] = a[i] * b;
+  }
+  return S;
+}
+
 // Calculate the produce of a 4x4 matrix and a length 4 vector.
 Vector operator*(Matrix a, Vector b){ 
   Vector s;
