@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include <iostream>
 
 Vector Grid::Integrate(double x0, double y0, double z0, 
     double nx,double ny,double nz, bool ScaFlag){
@@ -25,6 +26,7 @@ Vector Grid::Integrate(double x0, double y0, double z0,
 
     tau+=dtau;
     if(tau>10) break;
+    std::cout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
   }
   return S;
 }

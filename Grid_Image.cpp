@@ -23,21 +23,22 @@ void Grid::Image(double inc, int Npix, std::string fName){
   Vector S;
   bool status;
   int ir, it;
-  for (int i=0; i<Npix; i++){
-    for (int j=0; j<Npix; j++){
-      x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
+//for (int i=0; i<Npix; i++){
+//  for (int j=0; j<Npix; j++){
+//    x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
+  x = AU; y=AU; z=0.;
 
       getSurface(x, y, z, nx, ny, nz, status, ir, it);
-      if (status) { //status==true means the point is out of the domain.
-        Fout<<0.<<" "<<0.<<" "<<0.<<" "<<0.<<std::endl; // write all 0 here.
-	continue; // Move on to the next point.
-      }
+//    if (status) { //status==true means the point is out of the domain.
+//      Fout<<0.<<" "<<0.<<" "<<0.<<" "<<0.<<std::endl; // write all 0 here.
+//      continue; // Move on to the next point.
+//    }
 
       S = this->Integrate(x,y,z, nx,ny,nz, true);
 
       Fout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
-    }
-  }
+//  }
+//}
   Fout.close();
 }
 
