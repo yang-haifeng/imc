@@ -39,12 +39,12 @@ Matrix Grid::calcExtinction(int ir, int it, double x, double y, double z,
 
   Matrix M;
   M[4*0+0] = M[4*1+1] = M[4*2+2] = M[4*3+3] = Cep;
-  M[4*0+1] = M[4*1+0] = -Cpp*cos2ga;
-  M[4*0+2] = M[4*2+0] = -Cpp*sin2ga;
+  M[4*0+1] = M[4*1+0] = Cpp*cos2ga;
+  M[4*0+2] = M[4*2+0] = Cpp*sin2ga;
   M[4*0+3] = M[4*3+0] = 0.;
   M[4*1+2] = M[4*2+1] = 0.;
-  M[4*1+3] =   Cpp*sin2ga; M[4*3+1] = -Cpp*sin2ga;
-  M[4*2+3] = -Ccpp*cos2ga; M[4*3+2] = Ccpp*cos2ga;
+  M[4*1+3] = -Cpp*sin2ga; M[4*3+1] =   Cpp*sin2ga;
+  M[4*2+3] = Ccpp*cos2ga; M[4*3+2] = -Ccpp*cos2ga;
 
 /*
   Mout << Cep, -Cpp*cos2phi, -Cpp*sin2phi, 0,
