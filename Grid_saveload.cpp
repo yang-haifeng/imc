@@ -16,6 +16,7 @@ void Grid::saveStokes(std::string fName){
       }
     }
   }
+  Fout.close();
 }
 
 void Grid::loadStokes(std::string fName){
@@ -34,4 +35,5 @@ void Grid::loadStokes(std::string fName){
       }
     }
   }
+  Fin.close();
 }
