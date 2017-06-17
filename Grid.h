@@ -61,6 +61,7 @@ class Grid{
     void iteration(bool ScaFlag=true);
 
     void saveStokes(std::string fName="stokes.bin");
+    void loadStokes(std::string fName="stokes.bin");
 
     void Image(double inc, int Npix=100, std::string fName="image.out");
     Vector OnePointImage(double x0, double y0, double inc);
