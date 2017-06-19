@@ -1,3 +1,7 @@
+#ifndef _MPI_
+#define _MPI_
+#endif
+
 #define AU 1.49598e13
 #define con_h 6.6260755e-27
 #define con_c 3e10

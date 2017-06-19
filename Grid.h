@@ -6,6 +6,12 @@
 #include "typedef.h"
 #include "utils.h"
 
+#ifdef _MPI_
+#include "mpi.h"
+extern int world_size;
+extern int my_rank;
+#endif
+
 class Grid{
   protected:
     int Nr, Ntheta;
