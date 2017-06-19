@@ -42,14 +42,10 @@ void Grid::iteration(bool ScaFlag){
 
 	  S = this->Integrate(x,y,z, nx,ny,nz, ScaFlag);
 
-	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
-	  	+ 0] = S[0];
-	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
-	  	+ 1] = S[1];
-	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
-	  	+ 2] = S[2];
-	  Stokes1[i*Ntheta*NphiI*NthetaI*4 + j * NphiI*NthetaI*4 + k*NthetaI*4 + l*4
-	  	+ 3] = S[3];
+	  Stokes1[ Ncal*4 + 0] = S[0];
+	  Stokes1[ Ncal*4 + 1] = S[1];
+	  Stokes1[ Ncal*4 + 2] = S[2];
+	  Stokes1[ Ncal*4 + 3] = S[3];
 	  
 	  if (Ncal%1000==0){
 	    std::cout<<Ncal<<" done."<<std::endl;
