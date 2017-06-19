@@ -1,6 +1,10 @@
 #include "Grid.h"
 #include <iostream>
 
+#ifdef _MPI_
+#include "mpi.h"
+#endif
+
 void Grid::iteration(bool ScaFlag){
   if (ScaFlag)
     std::cout<<"Iteration start."<<std::endl;
@@ -9,7 +13,6 @@ void Grid::iteration(bool ScaFlag){
 
   double r0, theta0; // Initial location of the cell
   double n_phi, n_theta; // Direction of the line in question
-  double r, theta; // Current location of the calculation point
   double x, y, z;
   double nx, ny, nz;
   Vector S;
@@ -25,8 +28,7 @@ void Grid::iteration(bool ScaFlag){
 	  n_theta=thetaIc[l];
 
 	  // The following is the main body of calculation.
-	  r = r0; theta = theta0; // Set initial value for current location
-	  x = r*sin(theta); y = 0; z = r*cos(theta); // Current location
+	  x = r0*sin(theta0); y = 0; z = r0*cos(theta0); // Current location
           ir = i; it = j;
           // (nx,ny,nz) describes the direction of light in question.
 	  // Note that the direction of the light is the opposite of the direction

@@ -2,7 +2,16 @@
 #include <iostream>
 using namespace std;
 
+#ifdef _MPI_
+#include "mpi.h"
+#endif
+
 int main(){
+#ifdef _MPI_
+  MPI_Init(NULL, NULL);
+#endif
+
+
   //cout<<"Hello!!"<<endl;
   Grid M;
   //cout<<M.get_density(5,5)<<endl;
@@ -22,4 +31,10 @@ int main(){
   Vector S;
   S = M.OnePointImage(AU, AU, PI/2.);
   cout<<S[0]<<"\t"<<S[1]<<"\t"<<S[2]<<"\t"<<S[3]<<endl;
+
+
+#ifdef _MPI_
+  MPI_Finalize();
+#endif
+
 }
