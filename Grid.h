@@ -13,7 +13,6 @@ class Grid{
     double * Density;
     double * BnuT;
     double * Stokes;
-    double * Stokes1;
 
     double * Bfield;
 

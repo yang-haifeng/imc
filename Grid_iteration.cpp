@@ -11,6 +11,9 @@ void Grid::iteration(bool ScaFlag){
   else
     std::cout<<"Start of Zeroth iteration with no scattering."<<std::endl;
 
+  double * Stokes1;
+  Stokes1 = new double [Nr*Ntheta*NphiI*NthetaI*4];
+
   double r0, theta0; // Initial location of the cell
   double n_phi, n_theta; // Direction of the line in question
   double x, y, z;
@@ -59,5 +62,6 @@ void Grid::iteration(bool ScaFlag){
   }
   // Copy new array to past iteration. 
   for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++) Stokes[i] = Stokes1[i];
+  delete [] Stokes1;
   return;
 }
