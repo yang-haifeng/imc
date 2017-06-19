@@ -12,7 +12,31 @@ void Grid::iteration(bool ScaFlag){
     std::cout<<"Start of Zeroth iteration with no scattering."<<std::endl;
 
   double * Stokes1;
-  Stokes1 = new double [Nr*Ntheta*NphiI*NthetaI*4];
+  int NMaxStokes = Nr*Ntheta*NphiI*NthetaI;
+
+#ifdef _MPI_
+  int Nstart, Nstop, dN; // Calculate start and stop point
+  dN = round(double(NMaxStokes) / world_size);
+  Nstart = dN*my_rank; Nstop = dN*(my_rank+1);
+  if (my_rank == world_size-1) Nstop = NMaxStokes;
+
+  int Ntasks[world_size]; // Prepare Ntasks for each thread
+  for (int i=0; i<world_size-1; i++)
+    Ntasks[i] = dN;
+  Ntasks[world_size-1] = NMaxStokes - dN * (world_size-1);
+  int displs[world_size]; // displacement
+  for (int i=0; i<world_size; i++)
+    displs[i] = dN*i;
+
+  for (int i=0; i<world_size; i++) std::cout<<Ntasks[i]<<" ";
+  std::cout<<"from "<<my_rank<<std::endl;
+
+  Stokes1 = new double [ Ntasks[my_rank]*4 ];
+
+  std::cout<<world_size<<" "<<my_rank<<std::endl;
+#else
+  Stokes1 = new double [ NMaxStokes*4 ];
+#endif
 
   double r0, theta0; // Initial location of the cell
   double n_phi, n_theta; // Direction of the line in question
@@ -20,7 +44,7 @@ void Grid::iteration(bool ScaFlag){
   double nx, ny, nz;
   Vector S;
   int ir, it;
-  int Ncal=0;
+  int Ncal=0, Ncount=-1;
   for(int i=0; i<Nr; i++){ // i is index for radius in spacial grid
     r0 = rc[i];
     for(int j=0; j<Ntheta; j++){ // j is index for theta in spacial grid
@@ -29,6 +53,11 @@ void Grid::iteration(bool ScaFlag){
         n_phi=phiIc[k];
 	for(int l=0; l<NthetaI; l++){ // l is index for theta in angular grid
 	  n_theta=thetaIc[l];
+
+#ifdef _MPI_
+	  Ncount++;
+          if (Ncount<Nstart || Ncount >= Nstop) continue;
+#endif
 
 	  // The following is the main body of calculation.
 	  x = r0*sin(theta0); y = 0; z = r0*cos(theta0); // Current location
@@ -48,6 +77,8 @@ void Grid::iteration(bool ScaFlag){
 	  Stokes1[ Ncal*4 + 3] = S[3];
 	  
 	  if (Ncal%1000==0){
+	    //std::cout<<"Ncount: "<<Ncount<<" ";
+	    //std::cout<<Ncal<<" done. From: "<<my_rank<<std::endl;
 	    std::cout<<Ncal<<" done."<<std::endl;
 	  }
 	  Ncal++;
@@ -57,7 +88,11 @@ void Grid::iteration(bool ScaFlag){
     }
   }
   // Copy new array to past iteration. 
+#ifdef _MPI_
+  MPI_Allgatherv(Stokes1, Ntasks[my_rank], MPI_DOUBLE, Stokes, Ntasks, displs, MPI_DOUBLE, MPI_COMM_WORLD);
+#else
   for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++) Stokes[i] = Stokes1[i];
+#endif
   delete [] Stokes1;
   return;
 }

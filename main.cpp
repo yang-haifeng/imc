@@ -2,11 +2,16 @@
 #include <iostream>
 using namespace std;
 
+#ifdef _MPI_
+int world_size;
+int my_rank;
+#endif
+
 int main(){
 #ifdef _MPI_
   MPI_Init(NULL, NULL);
-  //MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-  //MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+  MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+  MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 #endif
 
 
