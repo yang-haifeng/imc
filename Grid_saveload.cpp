@@ -2,6 +2,9 @@
 #include <fstream>
 
 void Grid::saveStokes(std::string fName){
+#ifdef _MPI_
+  if (my_rank != 0) return;
+#endif
   std::ofstream Fout, Fout2;
   Fout.open(fName.c_str(), std::ios::binary);
   double temp;
