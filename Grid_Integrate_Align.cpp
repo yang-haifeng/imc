@@ -23,6 +23,7 @@ Vector Grid::Integrate(double x0, double y0, double z0,
     dSe = this->calcEmission(irs,its, x,y,z, nx,ny,nz);
 
     if(ScaFlag) dSs=this->calcScattering(irs,its, x,y,z, nx,ny,nz);
+    else dSs[0]=dSs[1]=dSs[2]=dSs[3]=0.;
 
     M = this->calcExtinction(irs,its, x,y,z, nx,ny,nz);
 
