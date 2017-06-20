@@ -30,6 +30,7 @@ class Grid{
     double dphiI,dthetaI;
 
     double r2min, r2max;
+    double epsDS;
 
     double kappa_abs, kappa_sca, kappa_ext;
 

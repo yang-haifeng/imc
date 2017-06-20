@@ -41,6 +41,7 @@ Grid::Grid(){
     rl[i] = dr*i;
     rr[i] = dr*(i+1);
   }
+  epsDS = dr/1e5;
   for(int i=0;i<Ntheta;i++){ // Max theta is PI now. Note that it is pretty bad.
     // I'll work on a modification later. 
     thetac[i] = PI/Ntheta*(i+0.5);

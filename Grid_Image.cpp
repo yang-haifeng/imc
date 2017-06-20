@@ -80,8 +80,8 @@ void Grid::getSurface(double &x, double &y, double &z, double nx, double ny,
     x += nx*ds; y += ny*ds; z += nz*ds;
   }
   ir=ir0; it=it0;
-  ds = -2e-5*AU; // move back a little bit so that (x, y, z) is in domain.
-    // see moveOneCell l57 for why using this step size.
+  ds = -2*epsDS; // move back a little bit so that (x, y, z) is in domain.
+    // This is twice the movement in moveOneCell
   x += nx*ds; y += ny*ds; z += nz*ds;
   status=false;
   return;

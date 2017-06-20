@@ -54,7 +54,7 @@ void Grid::moveOneCell(double x, double y, double z,
     }
   }
 
-  ds+=1e-5*AU; // Move a little bit beyond to make sure it doesn't stay on the wall.
+  ds+=epsDS; // Move a little bit beyond to make sure it doesn't stay on the wall.
 
   return;
 }
