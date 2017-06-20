@@ -1,7 +1,9 @@
 #CXX=g++
 CXX=mpicxx
 CFLAGS=-I.
-DEPS = Grid.h
+DEPS = Grid.h \
+       utils.h \
+       typedef.h
 
 OBJ = Grid.o \
       Grid_init.o \
