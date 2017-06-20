@@ -22,7 +22,7 @@ OBJ = Grid.o \
 
 OBJM = main.o
 
-%.o: %.c $(DEPS)
+%.o: %.cpp $(DEPS)
 	$(CXX) -c -o $@ $< $(CFLAGS)
 
 imc : $(OBJM) $(OBJ)
