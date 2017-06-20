@@ -7,6 +7,9 @@
 // fName is the output file name. (default: Image.out)
 // Npix default is 100.
 void Grid::Image(double inc, int Npix, std::string fName){
+#ifdef _MPI_
+  if (my_rank != 0) return;
+#endif
   std::ofstream Fout;
   Fout.open(fName.c_str());
 

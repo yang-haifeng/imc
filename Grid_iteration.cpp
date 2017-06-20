@@ -6,10 +6,19 @@
 #endif
 
 void Grid::iteration(bool ScaFlag){
+#ifdef _MPI_
+  if (my_rank==0){
+    if (ScaFlag)
+      std::cout<<"Iteration start."<<std::endl;
+    else
+      std::cout<<"Start of Zeroth iteration with no scattering."<<std::endl;
+  }
+#else
   if (ScaFlag)
     std::cout<<"Iteration start."<<std::endl;
   else
     std::cout<<"Start of Zeroth iteration with no scattering."<<std::endl;
+#endif
 
   double * Stokes1;
   int NMaxStokes = Nr*Ntheta*NphiI*NthetaI;
@@ -22,18 +31,13 @@ void Grid::iteration(bool ScaFlag){
 
   int Ntasks[world_size]; // Prepare Ntasks for each thread
   for (int i=0; i<world_size-1; i++)
-    Ntasks[i] = dN;
-  Ntasks[world_size-1] = NMaxStokes - dN * (world_size-1);
+    Ntasks[i] = dN*4;
+  Ntasks[world_size-1] = (NMaxStokes - dN * (world_size-1))*4;
   int displs[world_size]; // displacement
   for (int i=0; i<world_size; i++)
-    displs[i] = dN*i;
-
-  for (int i=0; i<world_size; i++) std::cout<<Ntasks[i]<<" ";
-  std::cout<<"from "<<my_rank<<std::endl;
+    displs[i] = 4*dN*i;
 
   Stokes1 = new double [ Ntasks[my_rank]*4 ];
-
-  std::cout<<world_size<<" "<<my_rank<<std::endl;
 #else
   Stokes1 = new double [ NMaxStokes*4 ];
 #endif
@@ -76,10 +80,12 @@ void Grid::iteration(bool ScaFlag){
 	  Stokes1[ Ncal*4 + 2] = S[2];
 	  Stokes1[ Ncal*4 + 3] = S[3];
 	  
-	  if (Ncal%1000==0){
-	    //std::cout<<"Ncount: "<<Ncount<<" ";
-	    //std::cout<<Ncal<<" done. From: "<<my_rank<<std::endl;
+          if (Ncal%1000==0){
+#ifdef _MPI_
+	    std::cout<<Ncal<<" done from process "<<my_rank<<std::endl;
+#else
 	    std::cout<<Ncal<<" done."<<std::endl;
+#endif
 	  }
 	  Ncal++;
 	  
@@ -93,6 +99,7 @@ void Grid::iteration(bool ScaFlag){
 #else
   for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++) Stokes[i] = Stokes1[i];
 #endif
+
   delete [] Stokes1;
   return;
 }
