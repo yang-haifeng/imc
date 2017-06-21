@@ -18,6 +18,9 @@ Vector Grid::Integrate(double x0, double y0, double z0,
     irs = ir; its=it;
     rho = this->get_density(ir, it);
     this->moveOneCell(x,y,z, nx,ny,nz, ds, ir,it);
+
+    //if(rho==0) continue;
+
     dtau = rho * ds * kappa_ext;
 
     dSe = this->calcEmission(irs,its, x,y,z, nx,ny,nz);

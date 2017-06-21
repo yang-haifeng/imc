@@ -95,7 +95,7 @@ void ConicDensity(double * Density, int Nr, int Ntheta){
 void Grid::init(){
   uniformRGrid(rc, rl, rr, Nr, epsDS);
   //uniformThetaGrid(thetac, thetal, thetar, Ntheta);
-  ConicThetaGrid(PI/6., thetac, thetal, thetar, Ntheta);
+  ConicThetaGrid(6.*PI/180., thetac, thetal, thetar, Ntheta);
 
   // Angular grid is not customizable at this point since it involves
   // how the angular integration is done.
