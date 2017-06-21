@@ -35,21 +35,11 @@ Grid::Grid(){
   for(int i=0;i<Nr*Ntheta*NphiI*NthetaI*4; i++)
     Stokes[i]=0; 
 
-  double dr = RMAX*AU/Nr;
-  for(int i=0;i<Nr;i++){
-    rc[i] = dr*(i+0.5);
-    rl[i] = dr*i;
-    rr[i] = dr*(i+1);
-  }
-  epsDS = dr/1e5;
-  for(int i=0;i<Ntheta;i++){ // Max theta is PI now. Note that it is pretty bad.
-    // I'll work on a modification later. 
-    thetac[i] = PI/Ntheta*(i+0.5);
-    thetal[i] = PI/Ntheta*(i);
-    thetar[i] = PI/Ntheta*(i+1.);
-  }
+  epsDS = 1.e-5*AU; // Small displacement for moveOneCell. Can be overwritten.
 
-  // Angular grid and its step sizes.
+  this->init();
+
+  // Angular grid and its step sizes. Not customizable at this point.
   for(int i=0;i<NphiI;i++) phiIc[i] = 2.*PI/NphiI*(i+0.5);
   dphiI = 2.*PI/NphiI;
   for(int i=0;i<NthetaI;i++) thetaIc[i] = PI/NthetaI*(i+0.5);
@@ -61,8 +51,6 @@ Grid::Grid(){
   kappa_abs = 1.;
   kappa_sca = 0.1;
   kappa_ext = kappa_abs+kappa_sca;
-
-  this->init();
 }
 
 Grid::~Grid(){
