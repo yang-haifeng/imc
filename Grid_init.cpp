@@ -1,8 +1,11 @@
 #include "Grid.h"
 #include <iostream>
 
+// This is where the grid is initialized.
+// The main init function is at the end, and all functions are available to it.
+
 // Uniform Sphere Model
-void Grid::initDensity(){
+void uniformDensity(double * Density, int Nr, int Ntheta){
   for (int i=0;i<Nr;i++){
     for (int j=0;j<Ntheta;j++){
       Density[i*Ntheta+j] = 1.e-18;
@@ -25,8 +28,7 @@ void Grid::initDensity(){
   }
 }
 */
-
-void Grid::initBnuT(){
+void uniformBnuT(double * BnuT, int Nr, int Ntheta){
   for (int i=0;i<Nr;i++){
     for (int j=0;j<Ntheta;j++){
       BnuT[i*Ntheta+j] = 1;
@@ -34,7 +36,7 @@ void Grid::initBnuT(){
   }
 }
 
-void Grid::initBfield(){
+void uniformBz(double * Bfield, int Nr, int Ntheta){
   // Uniform B field in z direction for now.
   // Note that since this is pure axis-symmetric code, By is simply Bphi.
   for (int i=0;i<Nr;i++){
@@ -45,3 +47,11 @@ void Grid::initBfield(){
     }
   }
 }
+
+void Grid::init(){
+  uniformDensity(Density, Nr, Ntheta);
+  uniformBnuT(BnuT, Nr, Ntheta);
+  uniformBz(Bfield, Nr, Ntheta);
+}
+
+

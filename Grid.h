@@ -34,9 +34,7 @@ class Grid{
 
     double kappa_abs, kappa_sca, kappa_ext;
 
-    void initDensity();
-    void initBnuT();
-    void initBfield();
+    void init();
 
     Vector Integrate(double x0,double y0,double z0, 
         double nx,double ny,double nz, bool ScaFlag=true);

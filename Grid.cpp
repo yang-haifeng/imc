@@ -1,6 +1,6 @@
 #include "Grid.h"
 
-#define Ntot 20
+#define Ntot 10
 #define RMAX 100
 
 Grid::Grid(){
@@ -62,9 +62,7 @@ Grid::Grid(){
   kappa_sca = 0.1;
   kappa_ext = kappa_abs+kappa_sca;
 
-  this->initDensity();
-  this->initBnuT();
-  this->initBfield();
+  this->init();
 }
 
 Grid::~Grid(){
