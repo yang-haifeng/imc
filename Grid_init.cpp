@@ -68,13 +68,40 @@ void uniformThetaGrid(double * thetac, double * thetal, double * thetar, int Nth
   }
 }
 
+void ConicThetaGrid(double theta0, 
+    double * thetac, double * thetal, double * thetar, int Ntheta){
+  thetal[0] = 0.; thetar[0] = PI/2.-theta0; thetac[0] = 0.5*(thetal[0]+thetar[0]);
+  thetal[Ntheta-1] = PI/2.+theta0; thetar[Ntheta-1] = PI;
+  thetac[Ntheta-1] = 0.5*(thetal[Ntheta-1]+thetar[Ntheta-1]);
+
+  double dtheta = 2*theta0/(Ntheta-2);
+  for(int i=1; i<Ntheta-1; i++){
+    thetal[i] = thetar[i-1];
+    thetar[i] = thetal[i]+dtheta;
+    thetac[i] = 0.5*(thetal[i]+thetar[i]);
+  }
+}
+
+void ConicDensity(double * Density, int Nr, int Ntheta){
+  for (int i=0;i<Nr;i++){
+    Density[i*Ntheta+0] = 0;
+    for (int j=1;j<Ntheta-1;j++){
+      Density[i*Ntheta+j] = 1.e-15;
+    }
+    Density[i*Ntheta+Ntheta-1] = 0;
+  }
+}
+
 void Grid::init(){
   uniformRGrid(rc, rl, rr, Nr, epsDS);
-  uniformThetaGrid(thetac, thetal, thetar, Ntheta);
+  //uniformThetaGrid(thetac, thetal, thetar, Ntheta);
+  ConicThetaGrid(PI/6., thetac, thetal, thetar, Ntheta);
+
   // Angular grid is not customizable at this point since it involves
   // how the angular integration is done.
 
-  uniformDensity(Density, Nr, Ntheta);
+  //uniformDensity(Density, Nr, Ntheta);
+  ConicDensity(Density, Nr, Ntheta);
   uniformBnuT(BnuT, Nr, Ntheta);
   uniformBz(Bfield, Nr, Ntheta);
 }
