@@ -14,15 +14,11 @@ int main(){
   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 #endif
 
-
-  //cout<<"Hello!!"<<endl;
   Grid M;
-  //cout<<M.get_density(5,5)<<endl;
-  //cout<<M.get_bnuT(5,5)<<endl;
-  M.iteration(false);
-  //M.iteration(true);
-  //M.saveStokes();
-  //std::cout<<"Generating the first image."<<std::endl;
+  M.loadStokes();
+  //M.iteration(false);
+  M.iteration(true);
+  M.saveStokes();
   M.Image(PI/4);
 
   //M.iteration();

@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 
+void progressBar(int N, int Ntot);
+
 // Generate a image of Npix x Npix pixels. 
 // inc is the inclination angle. Line of sight is in (sin(i), 0, cos(i)) direction.
 // fName is the output file name. (default: Image.out)
@@ -26,8 +28,10 @@ void Grid::Image(double inc, int Npix, std::string fName){
   Vector S;
   bool status;
   int ir, it;
+  int Ncount=0; 
   for (int i=0; i<Npix; i++){
     for (int j=0; j<Npix; j++){
+      progressBar(Ncount, Npix*Npix); Ncount++;
       x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
 
       getSurface(x, y, z, nx, ny, nz, status, ir, it);
@@ -87,3 +91,15 @@ void Grid::getSurface(double &x, double &y, double &z, double nx, double ny,
   return;
 }
 
+void progressBar(int N, int Ntot){
+  const int barWidth = 70;
+  int pos = barWidth*N/Ntot;
+
+  for (int i = 0; i < barWidth; ++i) {
+      if (i < pos) std::cout << "=";
+      else if (i == pos) std::cout << ">";
+      else std::cout << " ";
+  }
+  std::cout << "] " << int(N*100/Ntot) << " %\r";
+  std::cout.flush();
+}

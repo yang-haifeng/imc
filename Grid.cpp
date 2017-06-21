@@ -1,6 +1,6 @@
 #include "Grid.h"
 
-#define Ntot 10
+#define Ntot 20
 #define RMAX 100
 
 Grid::Grid(){
