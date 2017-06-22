@@ -3,7 +3,8 @@ CXX=mpicxx
 CFLAGS=-I.
 DEPS = Grid.h \
        utils.h \
-       typedef.h
+       typedef.h \
+       Dust.h \
 
 OBJ = Grid.o \
       Grid_init.o \
@@ -17,6 +18,8 @@ OBJ = Grid.o \
       Grid_Image.o \
       Grid_Integrate_Align.o \
       Grid_muller_Matrix_AlignES.o \
+      Dust.o \
+      Dust_calcAM.o \
       utils.o \
       # \
       Grid_muller_Matrix.o \
