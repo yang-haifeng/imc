@@ -11,6 +11,7 @@ class Dust{ // Assuming small oblate dust grain for now.
     double re; // Effective grain size in micron
     double s; // Axis ratio 
     std::complex<double> a1, a3;
+    double p0;
 
     void calcAM();
   public:

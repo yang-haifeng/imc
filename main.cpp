@@ -28,7 +28,6 @@ int main(){
   //cout<<S[0]<<"\t"<<S[1]<<"\t"<<S[2]<<"\t"<<S[3]<<endl;
 
   Dust D;
-  D.Test();
 
 #ifdef _MPI_
   MPI_Finalize();

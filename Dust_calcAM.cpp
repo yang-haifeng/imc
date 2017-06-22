@@ -12,4 +12,6 @@ void Dust::calcAM(){
 
   a1 = 4*PI*pow(re,3)*(eps-1.)/(3.+3*L1*(eps-1.));
   a3 = 4*PI*pow(re,3)*(eps-1.)/(3.+3*L3*(eps-1.));
+
+  p0 = (a1-a3).imag()/(a1+a3).imag();
 }
