@@ -49,6 +49,18 @@ void uniformBz(double * Bfield, int Nr, int Ntheta){
   }
 }
 
+void uniformBToroidal(double * Bfield, int Nr, int Ntheta){
+  // Uniform B field in z direction for now.
+  // Note that since this is pure axis-symmetric code, By is simply Bphi.
+  for (int i=0;i<Nr;i++){
+    for (int j=0;j<Ntheta;j++){
+      Bfield[(i*Ntheta+j)*3 + 0] = 1.; // Bx
+      Bfield[(i*Ntheta+j)*3 + 1] = 0; // By
+      Bfield[(i*Ntheta+j)*3 + 2] = 0; // Bz
+    }
+  }
+}
+
 void uniformRGrid(double * rc, double * rl, double * rr, int Nr, double& epsDS){
   double dr = RMAX*AU/Nr;
   for(int i=0;i<Nr;i++){
@@ -92,6 +104,15 @@ void ConicDensity(double * Density, int Nr, int Ntheta){
   }
 }
 
+void DecayingBnuT(double * rc, double * BnuT, int Nr, int Ntheta){
+  double r0 = 10*AU;
+  for (int i=0;i<Nr;i++){
+    for (int j=0;j<Ntheta;j++){
+      BnuT[i*Ntheta+j] = (r0/rc[i]);
+    }
+  }
+}
+
 void Grid::init(){
   uniformRGrid(rc, rl, rr, Nr, epsDS);
   //uniformThetaGrid(thetac, thetal, thetar, Ntheta);
@@ -102,8 +123,10 @@ void Grid::init(){
 
   //uniformDensity(Density, Nr, Ntheta);
   ConicDensity(Density, Nr, Ntheta);
-  uniformBnuT(BnuT, Nr, Ntheta);
-  uniformBz(Bfield, Nr, Ntheta);
+  //uniformBnuT(BnuT, Nr, Ntheta);
+  DecayingBnuT(rc, BnuT, Nr, Ntheta);
+  //uniformBz(Bfield, Nr, Ntheta);
+  uniformBToroidal(Bfield, Nr, Ntheta);
 }
 
 
