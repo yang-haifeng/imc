@@ -5,6 +5,7 @@
 #include <math.h>
 #include "typedef.h"
 #include "utils.h"
+#include "Dust.h"
 
 #ifdef _MPI_
 #include "mpi.h"
@@ -33,6 +34,7 @@ class Grid{
     double epsDS;
 
     double kappa_abs, kappa_sca, kappa_ext;
+    Dust * dust;
 
     void init();
 

@@ -48,6 +48,8 @@ Grid::Grid(){
   r2min = rl[0]*rl[0];
   r2max = rr[Nr-1]*rr[Nr-1];
 
+  dust = new Dust;
+
   kappa_abs = 1.;
   kappa_sca = 0.1;
   kappa_ext = kappa_abs+kappa_sca;
@@ -70,4 +72,6 @@ Grid::~Grid(){
 
   delete [] phiIc;
   delete [] thetaIc;
+
+  delete [] dust;
 }
