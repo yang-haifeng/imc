@@ -30,10 +30,10 @@ bool Grid::findCell(double x, double y, double z, int &ir, int &it){
     low=0; high=Nr-1; 
     while(high!=low){
       mid=(low+high)/2;
-      if (r>rl[mid] && r<rr[mid]){
+      if (r>=rl[mid] && r<rr[mid]){
         ir=mid; break;
       }
-      else if (r<=rl[mid]) high=mid;
+      else if (r<rl[mid]) high=mid;
       else low=mid;
     }
   }
@@ -43,10 +43,10 @@ bool Grid::findCell(double x, double y, double z, int &ir, int &it){
     low=0; high=Ntheta-1; 
     while(high!=low){
       mid=(low+high)/2;
-      if (theta>thetal[mid] && theta<thetar[mid]){
+      if (theta>=thetal[mid] && theta<thetar[mid]){
         it=mid; break;
       }
-      else if (theta<=thetal[mid]) high=mid;
+      else if (theta<thetal[mid]) high=mid;
       else low=mid;
     }
   }
