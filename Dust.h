@@ -4,8 +4,12 @@
 #include <math.h>
 #include <complex>
 #include "typedef.h"
+//#include "Grid.h"
+
+class Grid;
 
 class Dust{ // Assuming small oblate dust grain for now.
+    friend class Grid;
   protected:
     std::complex<double> eps; // Complex dialectic constant
     double re; // Effective grain size in micron
