@@ -73,5 +73,5 @@ Grid::~Grid(){
   delete [] phiIc;
   delete [] thetaIc;
 
-  delete [] dust;
+  delete dust;
 }
