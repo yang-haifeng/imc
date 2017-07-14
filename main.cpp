@@ -15,19 +15,19 @@ int main(){
   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 #endif
 
-  //Grid M;
+  Grid M;
   //M.iteration(false);
   //M.iteration(true);
   //M.saveStokes();
   //std::cout<<"Generating the first image."<<std::endl;
-  //M.Image(PI/2);
+  M.Image(PI/2);
 
   //cout<<"Looking at (AU, AU) point"<<endl;
   //Vector S;
   //S = M.OnePointImage(AU, AU, PI/2.);
   //cout<<S[0]<<"\t"<<S[1]<<"\t"<<S[2]<<"\t"<<S[3]<<endl;
 
-  Dust D;
+  //Dust D;
 
 #ifdef _MPI_
   MPI_Finalize();

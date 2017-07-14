@@ -1,5 +1,5 @@
 #ifndef _MPI_
-#define _MPI_
+//#define _MPI_
 #endif
 
 #define AU 1.49598e13
