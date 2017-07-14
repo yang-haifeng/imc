@@ -71,22 +71,22 @@ Matrix Grid::muller_Matrix(double theta, double phi,
   // There seems to be some difference in the definition of Stokes parameters,
   // especially Stokes U. I've changed some '-' signs and marked the places changed
   // Ref /Users/haifengyang/working/formal_sol/models.cpp l53-l68.
-  M[0*4+0] = 0.5*(S11*S11 + S12*S12 + S21*S21 + S22*S22).real();
-  M[0*4+1] = 0.5*(S11*S11 - S12*S12 + S21*S21 - S22*S22).real();
-  M[0*4+2] = (S11*S12 + S22*S21).real(); // Here
-  M[0*4+3] = 0.;
-  M[1*4+0] = 0.5*(S11*S11 + S12*S12 - S21*S21 - S22*S22).real();
-  M[1*4+1] = 0.5*(S11*S11 - S12*S12 - S21*S21 + S22*S22).real();
-  M[1*4+2] = (S11*S12 - S22*S21).real(); // Here
-  M[1*4+3] = 0.;
-  M[2*4+0] = (S11*S21 + S22*S12).real(); // Here
-  M[2*4+1] = (S11*S21 - S22*S12).real(); // Here
-  M[2*4+2] = (S11*S22 + S12*S21).real();
-  M[2*4+3] = 0.;
-  M[3*4+0] = 0.;
-  M[3*4+1] = 0.;
-  M[3*4+2] = 0.;
-  M[3*4+3] = (S22*S11 - S12*S21).real();
+  M[0*4+0] = 0.5*(S11*conj(S11) + S12*conj(S12) + S21*conj(S21) + S22*conj(S22)).real();
+  M[0*4+1] = 0.5*(S11*conj(S11) - S12*conj(S12) + S21*conj(S21) - S22*conj(S22)).real();
+  M[0*4+2] = (S11*conj(S12) + S22*conj(S21)).real(); // Here
+  M[0*4+3] = (S11*conj(S12) - S22*conj(S21)).imag();
+  M[1*4+0] = 0.5*(S11*conj(S11) + S12*conj(S12) - S21*conj(S21) - S22*conj(S22)).real();
+  M[1*4+1] = 0.5*(S11*conj(S11) - S12*conj(S12) - S21*conj(S21) + S22*conj(S22)).real();
+  M[1*4+2] = (S11*conj(S12) - S22*conj(S21)).real(); // Here
+  M[1*4+3] = (S11*conj(S12) + S22*conj(S21)).imag();
+  M[2*4+0] = (S11*conj(S21) + S22*conj(S12)).real(); // Here
+  M[2*4+1] = (S11*conj(S21) - S22*conj(S12)).real(); // Here
+  M[2*4+2] = (S11*conj(S22) + S12*conj(S21)).real();
+  M[2*4+3] = (S11*conj(S22) + S21*conj(S12)).imag();
+  M[3*4+0] = (conj(S11)*S21 + conj(S12)*S22).imag();
+  M[3*4+1] = (conj(S11)*S21 - conj(S12)*S22).imag();
+  M[3*4+2] = (S22*conj(S11) - S12*conj(S21)).imag();
+  M[3*4+3] = (conj(S22)*S11 - S12*conj(S21)).real();
 
   M *= 3./8.*PI*kappa_sca;
 
