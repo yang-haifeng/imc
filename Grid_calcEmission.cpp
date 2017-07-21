@@ -35,9 +35,9 @@ Vector Grid::calcEmission(int ir, int it, double x, double y, double z,
   double cosga = e1[0]*et[0]+e1[1]*et[1]+e1[2]*et[2];
   double singa = e1[0]*ep[0]+e1[1]*ep[1]+e1[2]*ep[2];
   Vector S; double bnuT = this->get_bnuT(ir, it);
-  S[0] = bnuT*kappa_abs*(1 + P0*cosinc*cosinc)/(1.+P0);
-  S[1] = bnuT*kappa_abs*P0*(1-cosinc*cosinc)/(1+P0)*(cosga*cosga - singa*singa);
-  S[2] = bnuT*kappa_abs*P0*(1-cosinc*cosinc)/(1+P0)*2*cosga*singa;
+  S[0] = bnuT*kappa_abs*(1 + P0*cosinc*cosinc);// /(1+P0)
+  S[1] = bnuT*kappa_abs*P0*(1-cosinc*cosinc)*(cosga*cosga - singa*singa);// /(1+P0)
+  S[2] = bnuT*kappa_abs*P0*(1-cosinc*cosinc)*2*cosga*singa;// /(1+P0)
   S[3] = 0.;
 
   return S;
