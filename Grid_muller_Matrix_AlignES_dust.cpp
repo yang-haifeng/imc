@@ -5,7 +5,7 @@
 // I didn't bother with Eigen package in this version. 
 // This might be necessary in the future when rotation of Stokes paramters
 // is necessary.
-double product(double e1[3], double M[3][3], double e2[3]);
+std::complex<double> product(double e1[3], std::complex<double> M[3][3], double e2[3]);
 
 // Calculate Muller's matrix, or rather phase matrix (normalized to 1).
 // Apply to (I, Q, U, V) and get how much radiation per optical depth (dI,dQ,dU,dV)
@@ -50,8 +50,8 @@ Matrix Grid::muller_Matrix(double theta, double phi,
   double thetaB, phiB;
   thetaB = acos(Bz); phiB = atan2(By,Bx);
 
-  double a1 = 1.; double a3 = (1-P0)/(1+P0)*a1;
-  double a[3][3];
+  std::complex<double> a1 = dust->a1; std::complex<double> a3 = dust->a3;
+  std::complex<double> a[3][3];
   a[0][0] = a1+ (a3-a1) * cos(phiB)*cos(phiB)*sin(thetaB)*sin(thetaB);
   a[0][1] = (a3-a1) * sin(phiB)*cos(phiB)*sin(thetaB)*sin(thetaB);
   a[0][2] = (a3-a1) * cos(thetaB)*sin(thetaB)*cos(thetaB);
@@ -62,7 +62,7 @@ Matrix Grid::muller_Matrix(double theta, double phi,
   a[2][1] = a[1][2];
   a[2][2] = a1 + (a3-a1)*cos(thetaB)*cos(thetaB);
 
-  double S11, S12, S21, S22;
+  std::complex<double> S11, S12, S21, S22;
   S11 = product(e1t, a, e2t); S12 = product(e1p, a, e2t);
   S21 = product(e1t, a, e2p); S22 = product(e1p, a, e2p);
 
@@ -71,30 +71,30 @@ Matrix Grid::muller_Matrix(double theta, double phi,
   // There seems to be some difference in the definition of Stokes parameters,
   // especially Stokes U. I've changed some '-' signs and marked the places changed
   // Ref /Users/haifengyang/working/formal_sol/models.cpp l53-l68.
-  M[0*4+0] = 0.5*(S11*S11 + S12*S12 + S21*S21 + S22*S22);
-  M[0*4+1] = 0.5*(S11*S11 - S12*S12 + S21*S21 - S22*S22);
-  M[0*4+2] = (S11*S12 + S22*S21); // Here
-  M[0*4+3] = 0.;
-  M[1*4+0] = 0.5*(S11*S11 + S12*S12 - S21*S21 - S22*S22);
-  M[1*4+1] = 0.5*(S11*S11 - S12*S12 - S21*S21 + S22*S22);
-  M[1*4+2] = (S11*S12 - S22*S21); // Here
-  M[1*4+3] = 0.;
-  M[2*4+0] = (S11*S21 + S22*S12); // Here
-  M[2*4+1] = (S11*S21 - S22*S12); // Here
-  M[2*4+2] = (S11*S22 + S12*S21);
-  M[2*4+3] = 0.;
-  M[3*4+0] = 0.;
-  M[3*4+1] = 0.;
-  M[3*4+2] = 0.;
-  M[3*4+3] = (S22*S11 - S12*S21);
+  M[0*4+0] = 0.5*(S11*conj(S11) + S12*conj(S12) + S21*conj(S21) + S22*conj(S22)).real();
+  M[0*4+1] = 0.5*(S11*conj(S11) - S12*conj(S12) + S21*conj(S21) - S22*conj(S22)).real();
+  M[0*4+2] = (S11*conj(S12) + S22*conj(S21)).real(); // Here
+  M[0*4+3] = (S11*conj(S12) - S22*conj(S21)).imag();
+  M[1*4+0] = 0.5*(S11*conj(S11) + S12*conj(S12) - S21*conj(S21) - S22*conj(S22)).real();
+  M[1*4+1] = 0.5*(S11*conj(S11) - S12*conj(S12) - S21*conj(S21) + S22*conj(S22)).real();
+  M[1*4+2] = (S11*conj(S12) - S22*conj(S21)).real(); // Here
+  M[1*4+3] = (S11*conj(S12) + S22*conj(S21)).imag();
+  M[2*4+0] = (S11*conj(S21) + S22*conj(S12)).real(); // Here
+  M[2*4+1] = (S11*conj(S21) - S22*conj(S12)).real(); // Here
+  M[2*4+2] = (S11*conj(S22) + S12*conj(S21)).real();
+  M[2*4+3] = (S11*conj(S22) + S21*conj(S12)).imag();
+  M[3*4+0] = (conj(S11)*S21 + conj(S12)*S22).imag();
+  M[3*4+1] = (conj(S11)*S21 - conj(S12)*S22).imag();
+  M[3*4+2] = (S22*conj(S11) - S12*conj(S21)).imag();
+  M[3*4+3] = (conj(S22)*S11 - S12*conj(S21)).real();
 
   M *= 3./8.*PI*kappa_sca;
 
   return M;
 }
 
-double product(double e1[3], double M[3][3], double e2[3]){
-  double s = 0;
+std::complex<double> product(double e1[3], std::complex<double> M[3][3], double e2[3]){
+  std::complex<double> s = 0.;
   for (int i=0; i<3; i++){
     for (int j=0; j<3; j++){
       s += e1[i] * M[i][j] * e2[j];

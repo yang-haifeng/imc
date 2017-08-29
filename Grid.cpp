@@ -1,11 +1,11 @@
 #include "Grid.h"
 
-#define Ntot 10
+#define Ntot 100
 #define RMAX 100
 
 Grid::Grid(){
   Nr = Ntot; Ntheta = Ntot; // Number in spacial grid.
-  NphiI = Ntot; NthetaI = Ntot; // Number in scattering angle grid.
+  NphiI = 20; NthetaI = 20; // Number in scattering angle grid.
 
   // Allocate memory for the arrays.
   // Density and BnuT are 2D array. ir*Ntheta+itheta
@@ -37,6 +37,12 @@ Grid::Grid(){
 
   epsDS = 1.e-5*AU; // Small displacement for moveOneCell. Can be overwritten.
 
+  dust = new Dust;
+
+  kappa_abs = 1.;
+  kappa_sca = 0.1;
+  kappa_ext = kappa_abs+kappa_sca;
+
   this->init();
 
   // Angular grid and its step sizes. Not customizable at this point.
@@ -47,12 +53,6 @@ Grid::Grid(){
 
   r2min = rl[0]*rl[0];
   r2max = rr[Nr-1]*rr[Nr-1];
-
-  dust = new Dust;
-
-  kappa_abs = 1.;
-  kappa_sca = 0.1;
-  kappa_ext = kappa_abs+kappa_sca;
 }
 
 Grid::~Grid(){

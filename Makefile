@@ -16,13 +16,13 @@ OBJ = Grid.o \
       Grid_calcExtinction.o \
       Grid_saveload.o \
       Grid_Image.o \
+      Grid_muller_Matrix.o \
       Grid_Integrate_Align.o \
-      Grid_muller_Matrix_AlignES.o \
       Dust.o \
       Dust_calcAM.o \
       utils.o \
       # \
-      Grid_muller_Matrix.o \
+      Grid_muller_Matrix_AlignES.o \
       Grid_Integrate.o \
 
 OBJM = main.o

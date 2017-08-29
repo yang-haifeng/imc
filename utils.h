@@ -3,9 +3,12 @@
 
 #include "math.h"
 #include <array>
+#include "typedef.h"
 
 #define Matrix std::array <double, 16>
 #define Vector std::array <double, 4>
+
+double planck_bnuT(double T, double nu);
 
 double dot(double * a, double * b);
 Matrix operator*(Matrix a, Matrix b);

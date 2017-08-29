@@ -6,6 +6,10 @@ double dot(double * a, double * b){
   return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
 }
 
+double planck_bnuT(double T, double nu){
+  return 2*con_h*pow(nu,3)/(con_c*con_c) / (exp(con_h*nu/con_k/T) - 1);
+}
+
 // Calculate the matrix multiplication of two 4x4 matrices.
 Matrix operator*(Matrix a, Matrix b){ 
   Matrix s;

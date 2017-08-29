@@ -97,18 +97,77 @@ void ConicDensity(double * Density, int Nr, int Ntheta){
   }
 }
 
-void Grid::init(){
+void HLTau(double * rc, double * rl, double * rr, int Nr, double &epsDS,
+	double * thetac, double * thetal, double * thetar, int Ntheta,
+	double * Density, double * BnuT, double * Bfield){
   uniformRGrid(rc, rl, rr, Nr, epsDS);
+  ConicThetaGrid(0.06, thetac, thetal, thetar, Ntheta);
+
+  double r_max = 200*AU; double Rc = 79*AU;
+  double T0 = 70; double H0 = 1.68*AU;
+  double Ts0 = 400.; double rs0=3.*AU; double R0 = 10.*AU;
+  double p = 1.064; double q = 0.43;
+  double rho0 = 2.e-16;
+  double lambda = 0.087;
+
+  for (int i=0; i<Nr; i++){
+    Density[i*Ntheta+0] = 0.;
+    BnuT[i*Ntheta+0] = 0.;
+
+    for (int j=1; j<Ntheta-1; j++){
+    //for (int j=0; j<Ntheta; j++){
+      double R = rc[i]; double theta = PI/2.-thetac[j];
+      double thetSH = H0*pow(R/Rc, 1.5-q/2)/R;
+      double f1 = pow(R/Rc, -p);
+      double f2 = exp(-pow(R/Rc, 3.5-p-q/2.));
+      double f3 = exp(-theta*theta/thetSH/thetSH);
+      double rho = rho0 * f1 * f2 * f3;
+      //std::cout<<thetSH<<std::endl;
+      //std::cout<<rho<<' '<<f1<<' '<<f2<<' '<<f3<<std::endl;
+      Density[i*Ntheta+j] = rho;
+      //Density[i*Ntheta+j] = 1.e-16;
+      //Density[i*Ntheta+j] = rho0;
+      //Density[i*Ntheta+j] = 1.e-18;
+      
+      double W = exp(-pow(theta/3/thetSH, 2));
+      double Td = W*T0*pow(R0/R, q) + (1-W)*Ts0*pow(rs0/R, q);
+
+      BnuT[i*Ntheta+j] = planck_bnuT(Td, con_c/lambda);
+      //BnuT[i*Ntheta+j] = 1.;
+    }
+
+    Density[i*Ntheta+Ntheta-1] = 0.;
+    BnuT[i*Ntheta+Ntheta-1] = 0.;
+  }
+  /*
+  */
+
+  uniformBfield(Bfield, Nr, Ntheta, Rad_Bfield);
+}
+
+void Grid::init(){
+
+  kappa_ext = 1.7424; 
+  //double albedo = 0.68707;
+  double albedo = 0.;
+  kappa_sca = kappa_ext*albedo;
+  kappa_abs = kappa_ext - kappa_sca;
+
+  HLTau(rc, rl, rr, Nr, epsDS,
+        thetac, thetal, thetar, Ntheta,
+        Density, BnuT, Bfield);
+
+  //uniformRGrid(rc, rl, rr, Nr, epsDS);
   //uniformThetaGrid(thetac, thetal, thetar, Ntheta);
-  ConicThetaGrid(PI/18., thetac, thetal, thetar, Ntheta);
+  //ConicThetaGrid(PI/18., thetac, thetal, thetar, Ntheta);
 
   // Angular grid is not customizable at this point since it involves
   // how the angular integration is done.
 
   //uniformDensity(Density, Nr, Ntheta);
-  ConicDensity(Density, Nr, Ntheta);
-  uniformBnuT(BnuT, Nr, Ntheta);
-  uniformBfield(Bfield, Nr, Ntheta, Rad_Bfield);
+  //ConicDensity(Density, Nr, Ntheta);
+  //uniformBnuT(BnuT, Nr, Ntheta);
+  //uniformBfield(Bfield, Nr, Ntheta, Rad_Bfield);
 }
 
 
