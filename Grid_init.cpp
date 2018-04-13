@@ -91,7 +91,7 @@ void ConicDensity(double * Density, int Nr, int Ntheta){
   for (int i=0;i<Nr;i++){
     Density[i*Ntheta+0] = 0;
     for (int j=1;j<Ntheta-1;j++){
-      Density[i*Ntheta+j] = 1.e-16;
+      Density[i*Ntheta+j] = 1.e-15;
     }
     Density[i*Ntheta+Ntheta-1] = 0;
   }
@@ -109,8 +109,8 @@ void HLTau(double * rc, double * rl, double * rr, int Nr, double &epsDS,
   double Ts0 = 400.; double rs0=3.*AU; double R0 = 10.*AU;
   double p = 1.064; double q = 0.43;
   //double rho0 = 1.e-13;
-  //double rho0 = 5.e-16;
-  double rho0 = 5.e-15;
+  double rho0 = 1.e-16;
+  //double rho0 = 5.e-15;
   //double lambda = 0.087;
   double lambda = 0.125;
 
@@ -144,9 +144,9 @@ void HLTau(double * rc, double * rl, double * rr, int Nr, double &epsDS,
     BnuT[i*Ntheta+Ntheta-1] = 0.;
   }
 
-  uniformBfield(Bfield, Nr, Ntheta, Rad_Bfield);
+  //uniformBfield(Bfield, Nr, Ntheta, Rad_Bfield);
   //uniformBfield(Bfield, Nr, Ntheta, Tor_Bfield);
-  //uniformBfield(Bfield, Nr, Ntheta, Z_Bfield);
+  uniformBfield(Bfield, Nr, Ntheta, Z_Bfield);
 }
 
 void LP74(double * rc, double * rl, double * rr, int Nr, double &epsDS,
@@ -203,6 +203,30 @@ void LP74(double * rc, double * rl, double * rr, int Nr, double &epsDS,
   uniformBfield(Bfield, Nr, Ntheta, Rad_Bfield);
 }
 
+void beta_Pic(double * rc, double * rl, double * rr, int Nr, double &epsDS,
+	double * thetac, double * thetal, double * thetar, int Ntheta,
+	double * Density, double * BnuT, double * Bfield){
+  uniformRGrid(rc, rl, rr, Nr, epsDS);
+  //ConicThetaGrid(0.1, thetac, thetal, thetar, Ntheta);
+  uniformThetaGrid(thetac, thetal, thetar, Ntheta);
+  //ConicDensity(Density, Nr, Ntheta);
+
+  for (int i=0; i<Nr; i++){
+    //for (int j=1; j<Ntheta-1; j++){
+    for (int j=0; j<Ntheta; j++){
+      double R = rc[i]; double theta = PI/2. - thetac[j];
+      BnuT[i*Ntheta+j] = pow(R/50/AU, -0.5);
+
+      double z = R*theta;
+      if (fabs(z)<10*AU){
+        Density[i*Ntheta+j] = 1.e-15;
+      }
+      else Density[i*Ntheta+j] = 0.;
+    }
+  }
+  uniformBfield(Bfield, Nr, Ntheta, Tor_Bfield);
+}
+
 void Grid::init(){
 
   //kappa_ext = 1.7424; 
@@ -211,19 +235,30 @@ void Grid::init(){
   //kappa_sca = kappa_ext*albedo;
   //kappa_abs = kappa_ext - kappa_sca;
 
+  // Band 7; 100 micron
+  //kappa_abs = 0.709422E+00;
+  //kappa_sca = 0.176029E+01;
+  // Band 4; 100 micron
+  //kappa_abs = 0.136446E+00;
+  //kappa_sca = 0.505130E-01;
+  // Band 3; 100 micron
+  kappa_abs = 0.717688E-01;
+  kappa_sca = 0.113965E-01;
+
   // 1250
   //kappa_abs = 0.435373E+00;
   //kappa_sca = 0.247879E+01;
   // 1300
-  kappa_abs = 0.351123E+00;
-  kappa_sca = 0.620750E-01;
-  kappa_ext = kappa_abs + kappa_sca;
+  //kappa_abs = 0.351123E+00;
+  //kappa_sca = 0.620750E-01;
 
+  kappa_ext = kappa_abs + kappa_sca;
+  //
   //HLTau(rc, rl, rr, Nr, epsDS,
   //      thetac, thetal, thetar, Ntheta,
   //      Density, BnuT, Bfield);
 
-  LP74(rc, rl, rr, Nr, epsDS,
+  beta_Pic(rc, rl, rr, Nr, epsDS,
         thetac, thetal, thetar, Ntheta,
         Density, BnuT, Bfield);
 

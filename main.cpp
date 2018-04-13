@@ -21,8 +21,8 @@ int main(){
   //M.saveStokes();
   //M.loadStokes();
   //std::cout<<"Generating the first image."<<std::endl;
-  //M.Image(PI/4);
-  M.Image(45./180.*PI, 100);
+  M.Image(PI/2, 400);
+  //M.Image(45./180.*PI, 100);
   //M.Image(87./180.*PI, 400);
 
   //cout<<"Looking at (AU, AU) point"<<endl;
