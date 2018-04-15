@@ -1,4 +1,5 @@
 #include "Dust.h"
+#include <iostream>
 #include <assert.h>
 
 void Dust::calcAM(){
@@ -14,4 +15,6 @@ void Dust::calcAM(){
   a3 = 4*PI*pow(re,3)*(eps-1.)/(3.+3*L3*(eps-1.));
 
   p0 = (a1-a3).imag()/(a1+a3).imag();
+
+  std::cout<<p0<<std::endl;
 }

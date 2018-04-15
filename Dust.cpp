@@ -10,5 +10,13 @@ Dust::Dust(){
   this->calcAM();
 }
 
+Dust::Dust(std::complex<double> eps0, double re0, double s0){
+  eps = eps0;
+  re = re0;
+  s = s0;
+
+  this->calcAM();
+}
+
 Dust::~Dust(){
 }

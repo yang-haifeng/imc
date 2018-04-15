@@ -16,12 +16,11 @@ class Dust{ // Assuming small oblate dust grain for now.
     double s; // Axis ratio 
     std::complex<double> a1, a3;
     double p0;
-
-    void calcAM();
   public:
     Dust();
-    //Dust(std::complex<double> eps, double re, double s);
+    Dust(std::complex<double>, double, double);
     ~Dust();
+    void calcAM();
 };
 
 #endif
