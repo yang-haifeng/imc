@@ -227,6 +227,52 @@ void beta_Pic(double * rc, double * rl, double * rr, int Nr, double &epsDS,
   uniformBfield(Bfield, Nr, Ntheta, Tor_Bfield);
 }
 
+void L1527(double * rc, double * rl, double * rr, int Nr, double &epsDS,
+	double * thetac, double * thetal, double * thetar, int Ntheta,
+	double * Density, double * BnuT, double * Bfield){
+  uniformRGrid(rc, rl, rr, Nr, epsDS);
+  //ConicThetaGrid(0.1, thetac, thetal, thetar, Ntheta);
+  uniformThetaGrid(thetac, thetal, thetar, Ntheta);
+
+  double Rin = 0.1*AU, Rout = 84*AU;
+  double T1 = 403.5;
+  double q=0.5;
+  double gas_to_dust = 100.;
+  double Mdisk = 1.3e-2 * 2e33; // In solar mass
+  double p = 1.7; 
+  double Sdamp = 0.19;
+  double H1 = 0.11*AU;
+  double h = 1.2;
+
+  double lambda = 0.087;
+
+  for (int i=0; i<Nr; i++){
+    double R = rc[i];
+    double SigR = (2-p)*Mdisk
+                 / 2/PI/( pow(Rout, 2-p) - pow(Rin, 2-p) ) 
+		 * pow(R, -p);
+    if(R>Rout) SigR *= Sdamp;
+    double H = H1 * pow(R/AU, h);
+    double T = T1 * pow(R/AU, -q);
+
+    for (int j=0; j<Ntheta; j++){
+      double theta = PI/2.-thetac[j];
+      double z=R*theta;
+      //std::cout<<thetSH<<std::endl;
+      //std::cout<<rho<<' '<<f1<<' '<<f2<<' '<<f3<<std::endl;
+      Density[i*Ntheta+j] = SigR/(sqrt(2*PI)*H) * exp(-pow(z/H, 2)/2) / gas_to_dust;
+      //Density[i*Ntheta+j] = 1.e-16;
+
+      //BnuT[i*Ntheta+j] = planck_bnuT(T, con_c/lambda);
+      BnuT[i*Ntheta+j] = 1.;
+    }
+  }
+
+  uniformBfield(Bfield, Nr, Ntheta, Tor_Bfield);
+}
+
+
+
 void Grid::init(){
 
   //kappa_ext = 1.7424; 
@@ -242,8 +288,8 @@ void Grid::init(){
   //kappa_abs = 0.136446E+00;
   //kappa_sca = 0.505130E-01;
   // Band 3; 100 micron
-  kappa_abs = 0.717688E-01;
-  kappa_sca = 0.113965E-01;
+  //kappa_abs = 0.717688E-01;
+  //kappa_sca = 0.113965E-01;
 
   // 1250
   //kappa_abs = 0.435373E+00;
@@ -252,13 +298,20 @@ void Grid::init(){
   //kappa_abs = 0.351123E+00;
   //kappa_sca = 0.620750E-01;
 
-  kappa_ext = kappa_abs + kappa_sca;
+  //kappa_ext = kappa_abs + kappa_sca;
   //
   //HLTau(rc, rl, rr, Nr, epsDS,
   //      thetac, thetal, thetar, Ntheta,
   //      Density, BnuT, Bfield);
 
-  beta_Pic(rc, rl, rr, Nr, epsDS,
+  //beta_Pic(rc, rl, rr, Nr, epsDS,
+  //      thetac, thetal, thetar, Ntheta,
+  //      Density, BnuT, Bfield);
+
+  kappa_abs = 0.031; // Why so small? 
+  kappa_sca = 0.;
+  kappa_ext = kappa_abs+kappa_sca;
+  L1527(rc, rl, rr, Nr, epsDS,
         thetac, thetal, thetar, Ntheta,
         Density, BnuT, Bfield);
 
