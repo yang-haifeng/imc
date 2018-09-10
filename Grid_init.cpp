@@ -227,6 +227,36 @@ void beta_Pic(double * rc, double * rl, double * rr, int Nr, double &epsDS,
   uniformBfield(Bfield, Nr, Ntheta, Tor_Bfield);
 }
 
+void IRS63(double * rc, double * rl, double * rr, int Nr, double &epsDS,
+	double * thetac, double * thetal, double * thetar, int Ntheta,
+	double * Density, double * BnuT, double * Bfield){
+  uniformRGrid(rc, rl, rr, Nr, epsDS);
+  uniformThetaGrid(thetac, thetal, thetar, Ntheta);
+
+  double Sigma0 = 0.18387776826;
+  double Rout = 100*AU;
+  double T0 = 30;
+  double lambda = 0.125;
+
+  for (int i=0; i<Nr; i++){
+    double R = rc[i];
+
+    double H = 0.17 * R * pow((R/Rout), 0.17);
+
+    for (int j=0; j<Ntheta; j++){
+      double theta = PI/2.-thetac[j];
+      double z=R*sin(theta);
+
+      Density[i*Ntheta+j] = Sigma0 / (R/Rout) / (2*PI) / H * exp(-0.5*(z*z/H/H));
+
+      BnuT[i*Ntheta+j] = planck_bnuT(T0, con_c/lambda);
+      //BnuT[i*Ntheta+j] = 1.;
+    }
+  }
+
+  uniformBfield(Bfield, Nr, Ntheta, Rad_Bfield);
+}
+
 void L1527(double * rc, double * rl, double * rr, int Nr, double &epsDS,
 	double * thetac, double * thetal, double * thetar, int Ntheta,
 	double * Density, double * BnuT, double * Bfield){
@@ -292,8 +322,8 @@ void Grid::init(){
   //kappa_sca = 0.113965E-01;
 
   // 1250
-  //kappa_abs = 0.435373E+00;
-  //kappa_sca = 0.247879E+01;
+  kappa_abs = 0.435373E+00;
+  kappa_sca = 0.247879E+01;
   // 1300
   //kappa_abs = 0.351123E+00;
   //kappa_sca = 0.620750E-01;
@@ -308,10 +338,10 @@ void Grid::init(){
   //      thetac, thetal, thetar, Ntheta,
   //      Density, BnuT, Bfield);
 
-  kappa_abs = 0.031; // Why so small? 
-  kappa_sca = 0.;
+  //kappa_abs = 0.031; // Why so small? 
+  //kappa_sca = 0.;
   kappa_ext = kappa_abs+kappa_sca;
-  L1527(rc, rl, rr, Nr, epsDS,
+  IRS63(rc, rl, rr, Nr, epsDS,
         thetac, thetal, thetar, Ntheta,
         Density, BnuT, Bfield);
 

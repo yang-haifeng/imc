@@ -1,7 +1,7 @@
 #include "Grid.h"
 
 #define Ntot 100
-#define RMAX 150
+#define RMAX 100
 
 Grid::Grid(){
   Nr = Ntot; Ntheta = Ntot; // Number in spacial grid.

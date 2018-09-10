@@ -40,8 +40,8 @@ void Grid::Image(double inc, int Npix, std::string fName){
 	continue; // Move on to the next point.
       }
 
-      //S = this->Integrate(x,y,z, nx,ny,nz, true);
-      S = this->Integrate(x,y,z, nx,ny,nz, false);
+      S = this->Integrate(x,y,z, nx,ny,nz, true);
+      //S = this->Integrate(x,y,z, nx,ny,nz, false);
 
       Fout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
     }
@@ -65,6 +65,7 @@ Vector Grid::OnePointImage(double x0, double y0, double inc){
   }
 
   S = this->Integrate(x,y,z, nx,ny,nz, true);
+  //S = this->Integrate(x,y,z, nx,ny,nz, false);
 
   return S;
 }

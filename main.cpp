@@ -16,18 +16,18 @@ int main(){
 #endif
 
   Grid M;
-  //M.iteration(false);
+  M.iteration(false);
   //M.iteration(true);
   //M.saveStokes();
   //M.loadStokes();
   //std::cout<<"Generating the first image."<<std::endl;
-  M.Image(85./180.*PI, 400);
-  //M.Image(45./180.*PI, 100);
+  //M.Image(85./180.*PI, 400);
+  M.Image(47./180.*PI, 100);
   //M.Image(87./180.*PI, 400);
 
   //cout<<"Looking at (AU, AU) point"<<endl;
   //Vector S;
-  //S = M.OnePointImage(AU, AU, PI/2.);
+  //S = M.OnePointImage(10*AU, 10*AU, PI/2.);
   //cout<<S[0]<<"\t"<<S[1]<<"\t"<<S[2]<<"\t"<<S[3]<<endl;
 
   //Dust D;
