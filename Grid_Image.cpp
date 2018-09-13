@@ -8,7 +8,7 @@ void progressBar(int N, int Ntot);
 // inc is the inclination angle. Line of sight is in (sin(i), 0, cos(i)) direction.
 // fName is the output file name. (default: Image.out)
 // Npix default is 100.
-void Grid::Image(double inc, int Npix, std::string fName){
+void Grid::Image(double inc, int Npix, bool ifsca, std::string fName){
 #ifdef _MPI_
   if (my_rank != 0) return;
 #endif
@@ -40,7 +40,7 @@ void Grid::Image(double inc, int Npix, std::string fName){
 	continue; // Move on to the next point.
       }
 
-      S = this->Integrate(x,y,z, nx,ny,nz, true);
+      S = this->Integrate(x,y,z, nx,ny,nz, ifsca);
 
       Fout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
     }
@@ -65,6 +65,41 @@ Vector Grid::OnePointImage(double x0, double y0, double inc){
 
   S = this->Integrate(x,y,z, nx,ny,nz, true);
 
+  return S;
+}
+
+Vector Grid::OnePointImage_wID(double inc, int ID, int Npix, bool ifsca){
+  double nx=sin(inc), ny=0, nz=cos(inc);
+  double dx, dy, dz; 
+  dy=rc[Nr-1]*2/(Npix-1);
+  dx=dy*cos(inc);
+  dz=-dy*sin(inc);
+  double x0, y0, z0;
+  y0 = -rc[Nr-1];
+  x0 = y0*cos(inc);
+  z0 = -y0*sin(inc);
+  double x,y,z;
+  Vector S;
+  bool status;
+  int ir, it;
+  int Ncount=0; 
+  for (int i=0; i<Npix; i++){
+    for (int j=0; j<Npix; j++){
+      Ncount++;
+      if (ID!=Ncount) continue;
+      x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
+
+      getSurface(x, y, z, nx, ny, nz, status, ir, it);
+      if (status) { //status==true means the point is out of the domain.
+	std::cout<<"Warning: Required point is out of the domain."<<std::endl;
+        S[0] = S[1] = S[2] = S[3] = 0.;
+        return S; // Move on to the next point.
+      }
+
+      S = this->Integrate(x,y,z, nx,ny,nz, ifsca);
+      break;
+    }
+  }
   return S;
 }
 

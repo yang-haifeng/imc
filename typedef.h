@@ -1,6 +1,6 @@
-#ifndef _MPI_
-#define _MPI_
-#endif
+//#ifndef _MPI_
+//#define _MPI_
+//#endif
 
 #define AU 1.49598e13
 #define con_h 6.6260755e-27
@@ -9,4 +9,6 @@
 
 #define PI 3.1415926
 
-#define P0 0.1
+#define P0 0.
+
+typedef double (*FieldFunction_)(double r, double theta);

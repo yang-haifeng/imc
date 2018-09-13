@@ -36,10 +36,6 @@ class Grid{
 
     void init();
 
-    Vector Integrate(double x0,double y0,double z0, 
-        double nx,double ny,double nz, bool ScaFlag=true);
-    void moveOneCell(double x, double y, double z, double nx, double ny, double nz,
-    	double &ds, int &ir, int &it);
     Vector calcScattering(int ir, int it, double x, double y, double z, 
     	double nx, double ny, double nz);
     Vector calcEmission(int ir, int it, double x, double y, double z, 
@@ -54,7 +50,9 @@ class Grid{
         double nz, bool &status, int &ir, int &it);
 
     bool isInDomain(double x, double y, double z);
-    bool findCell(double x, double y, double z, int &ir, int &it);
+
+    void InitializeDensityWFunction(FieldFunction_ MyDensity);
+    void InitializeBnuTWFunction(FieldFunction_ MyBnuT);
 
   public:
     Grid();
@@ -67,8 +65,14 @@ class Grid{
     void saveStokes(std::string fName="stokes.bin");
     void loadStokes(std::string fName="stokes.bin");
 
-    void Image(double inc, int Npix=100, std::string fName="image.out");
+    void Image(double inc, int Npix=100, bool ifsca=true, std::string fName="image.out");
     Vector OnePointImage(double x0, double y0, double inc);
+    Vector OnePointImage_wID(double inc, int ID, int Npix=100, bool ifsca=true);
+    Vector Integrate(double x0,double y0,double z0, 
+        double nx,double ny,double nz, bool ScaFlag=true);
+    void moveOneCell(double x, double y, double z, double nx, double ny, double nz,
+    	double &ds, int &ir, int &it);
+    bool findCell(double x, double y, double z, int &ir, int &it);
 };
 
 #endif

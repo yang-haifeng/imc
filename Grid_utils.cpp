@@ -22,7 +22,7 @@ bool Grid::findCell(double x, double y, double z, int &ir, int &it){
   double r, theta;
   r = sqrt(x*x+y*y+z*z);
   theta = acos(z/r);
-  //std::cout<<"In findCell function"<<x/AU<<" "<<y/AU<<" "<<z/AU<<" "<<r/AU<<" "<<theta/PI*180<<std::endl;
+  //std::cout<<"In findCell function: "<<x/AU<<" "<<y/AU<<" "<<z/AU<<" "<<r/AU<<" "<<theta/PI*180<<std::endl;
 
   int low, high, mid;
   if (r>rl[Nr-1]) ir=Nr-1;

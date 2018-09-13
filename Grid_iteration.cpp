@@ -58,6 +58,12 @@ void Grid::iteration(bool ScaFlag){
 	for(int l=0; l<NthetaI; l++){ // l is index for theta in angular grid
 	  n_theta=thetaIc[l];
 
+	  //std::cout<<"Working on "<<i<<" "<<j<<" "<<k<<" "<<l<<std::endl;
+	  //std::cout<<"r = "<<r0/AU<<std::endl;
+	  //std::cout<<"theta = "<<theta0<<std::endl;
+	  //std::cout<<"n_theta = "<<n_theta<<std::endl;
+	  //std::cout<<"n_phi = "<<n_phi<<std::endl;
+
 #ifdef _MPI_
 	  Ncount++;
           if (Ncount<Nstart || Ncount >= Nstop) continue;
@@ -72,6 +78,13 @@ void Grid::iteration(bool ScaFlag){
 	  nx = sin(n_theta)*cos(n_phi); 
 	  ny = sin(n_theta)*sin(n_phi); 
 	  nz = cos(n_theta); 
+
+	  //std::cout<<x<<std::endl;
+	  //std::cout<<y<<std::endl;
+	  //std::cout<<z<<std::endl;
+	  //std::cout<<nx<<std::endl;
+	  //std::cout<<ny<<std::endl;
+	  //std::cout<<nz<<std::endl;
 
 	  S = this->Integrate(x,y,z, nx,ny,nz, ScaFlag);
 

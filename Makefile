@@ -1,5 +1,5 @@
-#CXX=g++
-CXX=mpicxx
+CXX=g++
+#CXX=mpicxx
 CFLAGS=-I.
 DEPS = Grid.h \
        utils.h \

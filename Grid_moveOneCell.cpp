@@ -27,6 +27,9 @@ void Grid::moveOneCell(double x, double y, double z,
   double theta1, theta2;
   theta1 = thetal[it]; theta2 = thetar[it]; // Inner and outer boundary of the cell.
 
+  //std::cout<<R1<<"\t"<<r<<"\t"<<R2<<std::endl;
+  //std::cout<<theta1<<"\t"<<theta<<"\t"<<theta2<<std::endl;
+
   tr     = radWall(x, y, z, -nx, -ny, -nz, R1, R2);
   ttheta = thetaWall(x, y, z, -nx, -ny, -nz, theta1, theta2);
   tphi   = phiMove(x, y, z, -nx, -ny, -nz, dphiI); // phi is different in this code,
@@ -56,6 +59,7 @@ void Grid::moveOneCell(double x, double y, double z,
 
   ds+=epsDS; // Move a little bit beyond to make sure it doesn't stay on the wall.
 
+  //std::cout<<ds<<std::endl;
   return;
 }
 
