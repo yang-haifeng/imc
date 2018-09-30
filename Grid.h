@@ -6,6 +6,8 @@
 #include "typedef.h"
 #include "utils.h"
 
+#include "parameter_input.h"
+
 #ifdef _MPI_
 #include "mpi.h"
 extern int world_size;
@@ -34,7 +36,7 @@ class Grid{
 
     double kappa_abs, kappa_sca, kappa_ext;
 
-    void init();
+    void init(ParameterInput* pin);
 
     Vector calcScattering(int ir, int it, double x, double y, double z, 
     	double nx, double ny, double nz);
@@ -55,7 +57,7 @@ class Grid{
     void InitializeBnuTWFunction(FieldFunction_ MyBnuT);
 
   public:
-    Grid();
+    Grid(ParameterInput* pin);
     ~Grid();
     double get_density(int ir, int it);
     double get_bnuT(int ir, int it);
@@ -71,7 +73,7 @@ class Grid{
     Vector Integrate(double x0,double y0,double z0, 
         double nx,double ny,double nz, bool ScaFlag=true);
     void moveOneCell(double x, double y, double z, double nx, double ny, double nz,
-    	double &ds, int &ir, int &it);
+    	double &ds, int ir, int it);
     bool findCell(double x, double y, double z, int &ir, int &it);
 };
 

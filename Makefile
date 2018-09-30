@@ -3,7 +3,9 @@ CXX=g++
 CFLAGS=-I.
 DEPS = Grid.h \
        utils.h \
-       typedef.h
+       typedef.h \
+       parameter_input.h \
+       io_wrapper.h
 
 OBJ = Grid.o \
       Grid_init.o \
@@ -18,6 +20,8 @@ OBJ = Grid.o \
       Grid_Integrate_Align.o \
       Grid_muller_Matrix_AlignES.o \
       utils.o \
+      parameter_input.o \
+      io_wrapper.o \
       # \
       Grid_muller_Matrix.o \
       Grid_Integrate.o \

@@ -9,6 +9,6 @@
 
 #define PI 3.1415926
 
-#define P0 0.
+#define P0 0.0
 
 typedef double (*FieldFunction_)(double r, double theta);

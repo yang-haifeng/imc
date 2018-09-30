@@ -1,11 +1,10 @@
 #include "Grid.h"
 
-#define Ntot 20
-#define RMAX 100
-
-Grid::Grid(){
+Grid::Grid(ParameterInput* pin){
+  int Ntot = pin->GetOrAddInteger("grid", "ntot", 20);
   Nr = Ntot; Ntheta = Ntot; // Number in spacial grid.
-  NphiI = 20; NthetaI = 20; // Number in scattering angle grid.
+  int Nangle = pin->GetOrAddInteger("grid", "nangle", 20);
+  NphiI = Nangle; NthetaI = Nangle; // Number in scattering angle grid.
 
   // Allocate memory for the arrays.
   // Density and BnuT are 2D array. ir*Ntheta+itheta
@@ -37,7 +36,7 @@ Grid::Grid(){
 
   epsDS = 1.e-5*AU; // Small displacement for moveOneCell. Can be overwritten.
 
-  this->init();
+  this->init(pin);
 
   // Angular grid and its step sizes. Not customizable at this point.
   for(int i=0;i<NphiI;i++) phiIc[i] = 2.*PI/NphiI*(i+0.5);
@@ -48,8 +47,8 @@ Grid::Grid(){
   r2min = rl[0]*rl[0];
   r2max = rr[Nr-1]*rr[Nr-1];
 
-  kappa_abs = 1.;
-  kappa_sca = 0.1;
+  kappa_abs = pin->GetOrAddReal("dust", "kabs", 1.);
+  kappa_sca = pin->GetOrAddReal("dust", "ksca", 0.1);
   kappa_ext = kappa_abs+kappa_sca;
 }
 

@@ -1,12 +1,12 @@
 #include "Grid.h"
 
-#define RMAX 100
 #define Z_Bfield 2
 #define Tor_Bfield 1
 #define Rad_Bfield 0
 
 static const double TINY_R = 1e-7*AU;
 static const double TINY_THETA = 1e-7;
+double RMAX;
 
 void uniformBfield(double * Bfield, int Nr, int Ntheta, int Option);
 void uniformRGrid(double * rc, double * rl, double * rr, int Nr, double& epsDS);
@@ -17,9 +17,10 @@ void ConicThetaGrid(double theta0,
 double MyDensity(double r, double theta);
 double MyBnuT(double, double);
 
-void Grid::init(){
-  //uniformRGrid(rc, rl, rr, Nr, epsDS);
-  logRGrid(rc, rl, rr, Nr, epsDS);
+void Grid::init(ParameterInput* pin){
+  RMAX = pin->GetOrAddReal("model", "rmax", 100);
+  uniformRGrid(rc, rl, rr, Nr, epsDS);
+  //logRGrid(rc, rl, rr, Nr, epsDS);
   //uniformThetaGrid(thetac, thetal, thetar, Ntheta);
   ConicThetaGrid(PI/6., thetac, thetal, thetar, Ntheta);
 
@@ -61,6 +62,10 @@ void uniformRGrid(double * rc, double * rl, double * rr, int Nr, double& epsDS){
     rc[i] = dr*(i+0.5);
     rl[i] = dr*i;
     rr[i] = dr*(i+1);
+  }
+  for (int i=0; i<Nr-1; i++){
+    rl[i+1] -= TINY_R;
+    rr[i] += TINY_R;
   }
   epsDS = dr/1e5;
 }

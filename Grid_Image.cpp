@@ -96,6 +96,7 @@ Vector Grid::OnePointImage_wID(double inc, int ID, int Npix, bool ifsca){
         return S; // Move on to the next point.
       }
 
+      //std::cout<<"Huh?"<<std::endl;
       S = this->Integrate(x,y,z, nx,ny,nz, ifsca);
       break;
     }
@@ -113,8 +114,9 @@ void Grid::getSurface(double &x, double &y, double &z, double nx, double ny,
   }
   int ir0, it0; double ds;
   while (this->isInDomain(x,y,z)){
-    ir0=ir; it0=it;
-    this->moveOneCell(x,y,z, -nx,-ny,-nz, ds, ir,it); 
+    this->findCell(x, y, z, ir0, it0);
+    //ir0=ir; it0=it;
+    this->moveOneCell(x,y,z, -nx,-ny,-nz, ds, ir0,it0); 
     		            // moveOneCell assumes moving backward.
     x += nx*ds; y += ny*ds; z += nz*ds;
   }

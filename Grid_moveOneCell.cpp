@@ -9,7 +9,7 @@ double phiMove(double x, double y, double z, double nx, double ny, double nz, do
 // This function moves the location by one cell and calculate the distance moved
 void Grid::moveOneCell(double x, double y, double z, 
            double nx, double ny, double nz, 
-           double &ds, int &ir, int &it){
+           double &ds, int ir, int it){
 // x,y,z is the location
 // nx,ny,nz is the direction of the light path. Note that this is the opposite
 // of the actual moving direction.
@@ -41,7 +41,7 @@ void Grid::moveOneCell(double x, double y, double z,
   if (atr<atp){
     if (atr<att){ // atr is smallest.
       ds  = atr; 
-      ir += atr/tr;
+      //ir += atr/tr;
     }
     else{ // att is smallest
       ds = att;
@@ -50,7 +50,7 @@ void Grid::moveOneCell(double x, double y, double z,
   else{
     if (atp<att){ // atp is smallest
       ds  = atp;
-      it += atp/ttheta;
+      //it += atp/ttheta;
     }
     else{ // att is smallest
       ds = att;
@@ -186,5 +186,6 @@ double phiMove(double x, double y, double z, double nx, double ny, double nz, do
   double phi = atan2(y,x);
   double np = ny*cos(phi) - nx*sin(phi); 
   double r = sqrt(x*x+y*y);
-  return fabs(r*dphi/np);
+  return r*dphi/np;
+  //return 1e50;
 }
